@@ -5,9 +5,9 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NashSecurityW7DesktopApp", "NashSecurityW7DesktopApp\NashSecurityW7DesktopApp.csproj", "{3B2C6F15-A81E-44E7-8407-650C2377D948}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NashSecurity", "..\..\MyCryptor\MyCryptor\NashSecurity\NashSecurity.csproj", "{66A58155-9458-420D-AF2A-6ECBB7D992B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NashSecurity", "NashSecurity\NashSecurity.csproj", "{66A58155-9458-420D-AF2A-6ECBB7D992B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NashSecurityTests", "..\..\MyCryptor\MyCryptor\NashSecurityTests\NashSecurityTests.csproj", "{5A660AA1-60FB-4277-AB88-3BB5B11C6F91}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NashSecurityTests", "NashSecurityTests\NashSecurityTests.csproj", "{5A660AA1-60FB-4277-AB88-3BB5B11C6F91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,143 +10,134 @@ namespace NashSecurity.Tests.Cryptor
     {
         public class FileCryptingTests : CryptorTests
         {
+            private static readonly object GuardObject = new object();
+            private static string _plainFile;
+            private static string _encryptedFile;
+            private static byte[] _plainBytes;
+            private static byte[] _encryptedBytes;
+
             public FileCryptingTests(Type loginHelperType) : base(loginHelperType)
             {
+                _plainFile = "file.txt";
+                _encryptedFile = "file.txt.nsec";
+                _plainBytes = new byte[]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 };
+                _encryptedBytes = InternalContentCryptor.EncryptBytes(AccountInfo.MasterPassword,
+                        _plainBytes);
             }
-
-            private static readonly object GuardObject = new object();
 
             [Test]
-            public void EncryptFile()
+            public void EncryptFileTest()
             {
-                var plainFile = "file.txt";
-                var encryptedFile = "file.txt.nsec";
-                byte[] inputBytes = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 };
-
-                using (new MultipleEnsurer(new SingleTestEnsurer(), new FilePresenceEnsurer(plainFile, inputBytes),
-                        new FileAbsenceEnsurer(encryptedFile)))
+                using (new TestScopeProvider())
                 {
-                    Cryptor.EncryptFile(SessionToken, plainFile, encryptedFile);
-                    Assert.True(File.Exists(encryptedFile));
-                    AssertFileBytes(encryptedFile, InternalContentCryptor.EncryptBytes(AccountInfo.MasterPassword,
-                        inputBytes));
+                    CreatePlainFile();
+                    EncryptFile();
+                    AssertEncryptedFileIsCorrect();
                 }
-            }
-
-            private void AssertFileBytes(string encryptedFile, byte[] expectedEncryptedBytes)
-            {
-                byte[] encryptedBytes = ReadFileBytes(encryptedFile);
-
-                CollectionAssert.AreEqual(expectedEncryptedBytes, encryptedBytes);
             }
 
             [Test, ExpectedException(typeof(FileDoesNotExistsException))]
             public void EncryptFileNonExisting()
             {
-                var plainFile = "file.txt";
-                var encryptedFile = "file.txt.nsec";
-                using (new MultipleEnsurer(new SingleTestEnsurer(), new FileAbsenceEnsurer(plainFile),
-                        new FileAbsenceEnsurer(encryptedFile)))
+                using (new TestScopeProvider())
                 {                    
-                    Cryptor.EncryptFile(SessionToken, plainFile, encryptedFile);
+                    EncryptFile();
                 }
             }
 
             [Test, ExpectedException(typeof(UnableToCreateOutputFileException))]
             public void EncryptFileWithUnableToWriteOutputFile()
             {
-                byte[] inputBytes = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 };
-                var plainFile = "file.txt";
-                var encryptedFile = "file.txt.nsec";
-
-                using (new MultipleEnsurer(new SingleTestEnsurer(), new FilePresenceEnsurer(plainFile, inputBytes),
-                    new UnaccessibleFileEnsurer(encryptedFile)))
+                using (new TestScopeProvider())
                 {
-                    Cryptor.EncryptFile(SessionToken, plainFile, encryptedFile);
+                    using (new FileAccessPreventer(_encryptedFile))
+                    {
+                        CreatePlainFile();
+                        EncryptFile();
+                    }
                 }
+            }
 
+            [Test, ExpectedException(typeof(UnableToCreateOutputFileException))]
+            public void EncryptFileOutputFileHidden()
+            {
+                using (new TestScopeProvider())
+                {
+                    using (new FileHider(_encryptedFile))
+                    {
+                        CreatePlainFile();
+                        EncryptFile();
+                    }
+                }
+            }
+
+            [Test]
+            public void DecryptFileTest()
+            {
+                using (new TestScopeProvider())
+                {
+                    CreateEncryptedFile();
+                    DecryptFile();
+                    AssertPlainFileIsCorrect();
+                }
             }
 
             [Test, ExpectedException(typeof(FileDoesNotExistsException))]
             public void DecryptFileNonExisting()
             {
-                var plainFile = "file.txt";
-                var encryptedFile = "file.txt.nsec";
-                using (new MultipleEnsurer(new SingleTestEnsurer(), new FileAbsenceEnsurer(encryptedFile), 
-                                            new FileAbsenceEnsurer(plainFile)))
+                using (new TestScopeProvider())
                 {
-                    Cryptor.DecryptFile(SessionToken, encryptedFile, plainFile);
+                    DecryptFile();
                 }
             }
 
-            public class MultipleEnsurer : IDisposable
+            [Test, ExpectedException(typeof(UnableToCreateOutputFileException))]
+            public void DecryptFileWithUnableToWriteOutputFile()
             {
-                private readonly IDisposable[] _disposables;
-
-                public MultipleEnsurer(params IDisposable[] disposables)
+                using (new TestScopeProvider())
                 {
-                    _disposables = disposables;
-                }
-
-                public void Dispose()
-                {
-                    foreach (var disposable in _disposables)
+                    using (new FileAccessPreventer(_plainFile))
                     {
-                        disposable.Dispose();
+                        CreateEncryptedFile();
+                        DecryptFile();
                     }
                 }
             }
 
-            public class SingleTestEnsurer : IDisposable
+            [Test, ExpectedException(typeof(UnableToCreateOutputFileException))]
+            public void DecryptFileOutputFileHidden()
             {
-                public SingleTestEnsurer()
+                using (new TestScopeProvider())
                 {
+                    using (new FileHider(_plainFile))
+                    {
+                        CreateEncryptedFile();
+                        DecryptFile();
+                    }
+                }
+            }
+
+            public class TestScopeProvider : IDisposable
+            {
+                public TestScopeProvider()
+                {
+
                     Monitor.Enter(GuardObject); 
                 }
 
                 public void Dispose()
                 {
+                    DeleteFileIfExists(_plainFile);
+                    DeleteFileIfExists(_encryptedFile);
                     Monitor.Exit(GuardObject);
                 }
             }
 
-            public class FilePresenceEnsurer : IDisposable
+            public class FileAccessPreventer : IDisposable
             {
-                private readonly string _fileName;
-                public FilePresenceEnsurer(string fileName, byte[] dataBytes)
-                {
-                    _fileName = fileName;
-                    CreateFileWithBytes(fileName, dataBytes);
-                }
-                public void Dispose()
-                {
-                    DeleteFileIfExists(_fileName);
-                }
-            }
-
-            public class FileAbsenceEnsurer : IDisposable
-            {
-                private readonly string _fileName;
-                public FileAbsenceEnsurer(string fileName)
-                {
-                    _fileName = fileName;
-                    DeleteFileIfExists(_fileName);
-                }
-                public void Dispose()
-                {
-                    DeleteFileIfExists(_fileName);
-                }
-            }
-
-            public class UnaccessibleFileEnsurer : IDisposable
-            {
-                private readonly string _fileName;
                 private FileStream _fileStream;
-
-                public UnaccessibleFileEnsurer(string fileName)
+                public FileAccessPreventer(string fileName)
                 {
-                    _fileName = fileName;
-                    DeleteFileIfExists(_fileName);
                     _fileStream = File.Open(fileName, FileMode.Create);
                 }
 
@@ -154,13 +145,66 @@ namespace NashSecurity.Tests.Cryptor
                 {
                     _fileStream.Close();
                     _fileStream.Dispose();
+                }
+            }
+
+            public class FileHider : IDisposable
+            {
+                private readonly string _fileName;
+                private FileInfo _fileInfo;
+
+                public FileHider(string fileName)
+                {
+                    _fileName = fileName;
+                    File.WriteAllBytes(_fileName, new byte[]{0});
+                    _fileInfo = new FileInfo(Environment.CurrentDirectory + @"\" + _fileName);
+                    _fileInfo.Attributes |= FileAttributes.Hidden;
+                    
+                }
+
+                public void Dispose()
+                {
+                    _fileInfo.Attributes &= ~FileAttributes.Hidden;
                     DeleteFileIfExists(_fileName);
                 }
             }
 
-            private byte[] ReadFileBytes(string encryptedFile)
+            private static void CreateEncryptedFile()
             {
-                return File.ReadAllBytes(encryptedFile);
+                CreateFileWithBytes(_encryptedFile, _encryptedBytes);
+            }
+
+            private static void CreatePlainFile()
+            {
+                CreateFileWithBytes(_plainFile, _plainBytes);
+            }
+
+            private void DecryptFile()
+            {
+                Cryptor.DecryptFile(SessionToken, _encryptedFile, _plainFile);
+            }
+
+            private void EncryptFile()
+            {
+                Cryptor.EncryptFile(SessionToken, _plainFile, _encryptedFile);
+            }
+
+            private void AssertEncryptedFileIsCorrect()
+            {
+                Assert.True(File.Exists(_encryptedFile));
+                AssertFileConentIsCorrect(_encryptedFile, _encryptedBytes);
+            }
+
+            private void AssertPlainFileIsCorrect()
+            {
+                Assert.True(File.Exists(_plainFile));
+                AssertFileConentIsCorrect(_plainFile, _plainBytes);
+            }
+
+            private void AssertFileConentIsCorrect(string fileName, byte[] fileDataBytes)
+            {
+                byte[] encryptedBytes = File.ReadAllBytes(fileName);
+                CollectionAssert.AreEqual(fileDataBytes, encryptedBytes);
             }
 
             private static void CreateFileWithBytes(string inputFile, byte[] inputBytes)

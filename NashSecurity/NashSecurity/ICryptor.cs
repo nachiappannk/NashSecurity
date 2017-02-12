@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using NashSecurity.InternalCryptor;
 
 namespace NashSecurity
 {
@@ -12,18 +11,24 @@ namespace NashSecurity
 
     public static class FileCryptorExtentions
     {
-        static FileCryptorExtentions()
-        {
-        }
-
-        
-
         public static void EncryptFile(this ICryptor cryptor, ISessionToken sessionToken, 
             string inputFile, string outputFile)
         {
+            CryptFile(sessionToken, inputFile, outputFile, cryptor.Encrypt);
+        }
+
+        public static void DecryptFile(this ICryptor cryptor, ISessionToken sessionToken,
+            string encryptedFile, string dataFile)
+        {
+            CryptFile(sessionToken, encryptedFile, dataFile, cryptor.Decrypt);
+        }
+
+        public static void CryptFile(ISessionToken sessionToken, string inputFile, string outputFile,
+            Func<ISessionToken, byte[], byte[]> cryptingFunction)
+        {
             AssertFileExists(inputFile);
             var inputBytes = File.ReadAllBytes(inputFile);
-            var outputBytes = cryptor.Encrypt(sessionToken, inputBytes);
+            var outputBytes = cryptingFunction(sessionToken, inputBytes);
             try
             {
                 File.WriteAllBytes(outputFile, outputBytes);
@@ -32,12 +37,6 @@ namespace NashSecurity
             {
                 throw new UnableToCreateOutputFileException(e);
             }
-        }
-
-        public static void DecryptFile(this ICryptor cryptor, ISessionToken sessionToken,
-            string encryptedFile, string dataFile)
-        {
-            AssertFileExists(encryptedFile);
         }
 
         private static void AssertFileExists(string encryptedFile)

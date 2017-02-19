@@ -7,7 +7,6 @@
 
         public ISessionToken CreateSession(string accountName, string masterPassword)
         {
-            AssertNotLoggedIn();
             _sessionToken = new SessionToken();
             _sessionData = new SessionData()
             {

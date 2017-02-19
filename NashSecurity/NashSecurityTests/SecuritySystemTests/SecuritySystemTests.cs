@@ -1,4 +1,5 @@
-﻿using NashSecurity.AccountData;
+﻿using System;
+using NashSecurity.AccountData;
 using NashSecurity.Tests.SecuritySystemTests.Support;
 using NUnit.Framework;
 
@@ -21,6 +22,8 @@ namespace NashSecurity.Tests.SecuritySystemTests
 
         public class SecuritySystemSpecificTests : SecuritySystemTests
         {
+
+
             [Test]
             public void WhenSigningUpThenSessionTokenIsGot()
             {

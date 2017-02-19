@@ -19,46 +19,53 @@ namespace NashSecurity.Tests.SecuritySystemTests
             SecuritySystem.Logout(SessionToken);
         }
 
-        [Test, ExpectedException(typeof(SecuritySystem.AccountNameAlreadyTakenException))]
-        public void SignUp()
+        public class SpecificTests : LoggedOutSecuritySystemTests
         {
-            SecuritySystem.SignUp(AccountInfo);
-        }
+            public SpecificTests(Type loginHelperType) : base(loginHelperType)
+            {
+            }
 
-        [Test]
-        public void WhenSignInThenSessionTokenIsValid()
-        {
-            var sessionToken = SecuritySystem.SignIn(AccountInfo);
-            Assert.IsNotNull(sessionToken);
-        }
+            [Test, ExpectedException(typeof(SecuritySystem.AccountNameAlreadyTakenException))]
+            public void SignUp()
+            {
+                SecuritySystem.SignUp(AccountInfo);
+            }
 
-        public const string LongPwd = "";
-        [TestCase("WrongPassword1234567890WrongPassword1234567890WrongPasswordkksjflsdkljldka;;asdfjlakkljasdfkljl")]
-        [TestCase(LongPwd)]
-        [ExpectedException(typeof(SecuritySystem.AccountOrPasswordIsIncorrectException))]
-        public void SignInWithWrongPassword(string password)
-        {
-            var accountInfo = AccountInfo.GetCopy();
-            accountInfo.LoginPassword = password;
-            SecuritySystem.SignIn(accountInfo);
-        }
+            [Test]
+            public void WhenSignInThenSessionTokenIsValid()
+            {
+                var sessionToken = SecuritySystem.SignIn(AccountInfo);
+                Assert.IsNotNull(sessionToken);
+            }
 
-        [Test, ExpectedException(typeof(SecuritySystem.AccountOrPasswordIsIncorrectException))]
-        public void SignInWithWrongUserId()
-        {
-            SecuritySystem.SignIn(AccountInfo.CorruptUserName());
-        }
+            public const string LongPwd = "";
+            [TestCase("WrongPassword1234567890WrongPassword1234567890WrongPasswordkksjflsdkljldka;;asdfjlakkljasdfkljl")]
+            [TestCase(LongPwd)]
+            [ExpectedException(typeof(SecuritySystem.AccountOrPasswordIsIncorrectException))]
+            public void SignInWithWrongPassword(string password)
+            {
+                var accountInfo = AccountInfo.GetCopy();
+                accountInfo.LoginPassword = password;
+                SecuritySystem.SignIn(accountInfo);
+            }
 
-        [Test, ExpectedException(typeof(SecuritySystem.NotLoggedInException))]
-        public void Logout()
-        {
-            SecuritySystem.Logout(SessionToken);
-        }
+            [Test, ExpectedException(typeof(SecuritySystem.AccountOrPasswordIsIncorrectException))]
+            public void SignInWithWrongUserId()
+            {
+                SecuritySystem.SignIn(AccountInfo.CorruptUserName());
+            }
 
-        [Test, ExpectedException(typeof(SecuritySystem.NotLoggedInException))]
-        public void GetCryptor()
-        {
-            SecuritySystem.GetCryptor(SessionToken);
+            [Test, ExpectedException(typeof(SecuritySystem.NotLoggedInException))]
+            public void Logout()
+            {
+                SecuritySystem.Logout(SessionToken);
+            }
+
+            [Test, ExpectedException(typeof(SecuritySystem.NotLoggedInException))]
+            public void GetCryptor()
+            {
+                SecuritySystem.GetCryptor(SessionToken);
+            }
         }
     }
 }

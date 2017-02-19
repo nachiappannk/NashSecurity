@@ -39,7 +39,12 @@ namespace NashSecurityW7DesktopAppViewModel.Tests
         [Test]
         public void When_signed_up_then_session_token_is_set()
         {
-            
+            SignUpViewModel.UserName = "abcdefghijk";
+            SignUpViewModel.MasterPassword = "jkdasjkfhakljhsljksdfjkdasjkfhakljhsljksdf";
+            SignUpViewModel.LoginPassword = "jkdasjkfhakljhsljksdf";
+            Assume.That(SignUpViewModel.SignUpCommand.CanExecute(null));
+            SignUpViewModel.SignUpCommand.Execute(null);
+
         }
 
         private void AssertChangedEventOnSettingParameter(Action parameterSettingAction)

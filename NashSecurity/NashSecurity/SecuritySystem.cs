@@ -13,31 +13,22 @@ namespace NashSecurity
 
         public SecuritySystem(IAccountDataGateway accountDataGateway)
         {
-            _accountDataGateway = accountDataGateway;
+            _accountDataGateway = new ExceptionHandingAccountDataGateway(accountDataGateway);
         }
 
         public ISessionToken SignUp(string userName, string masterPassword, string loginPassword)
         {
             AssertNotLoggedIn();
             AssertUserNameIsValidForSignUp(userName);
-            try
-            {
-                var encryptedAccount = CreateEncryptedAccount(userName, masterPassword, loginPassword);
-                _accountDataGateway.StoreEncryptedAccount(encryptedAccount);
-                return _sessionDataHolder.CreateSession(userName, masterPassword);;
-            }
-            // ReSharper disable once UnusedVariable
-            catch (DataGatewayAccountExistException e)
-            {
-                throw new AccountNameAlreadyTakenException();
-            }
+            var encryptedAccount = CreateEncryptedAccount(userName, masterPassword, loginPassword);
+            _accountDataGateway.StoreEncryptedAccount(encryptedAccount);
+            return _sessionDataHolder.CreateSession(userName, masterPassword);
         }
 
         public ISessionToken SignIn(string userName, string loginPassword)
         {
-            _sessionDataHolder.AssertNotLoggedIn();
-            if(!_accountDataGateway.DoesAccountExist(userName)) throw new AccountOrPasswordIsIncorrectException();
-
+            AssertNotLoggedIn();
+            AssertAccountExists(userName);
             var encryptedAccount = _accountDataGateway.ReadEncryptedAccount(userName);
             var passwordCryptor = new InternalPasswordCryptor(loginPassword);
             var encryptedLoginPassword = passwordCryptor.EncryptPassword(loginPassword);
@@ -52,7 +43,7 @@ namespace NashSecurity
 
         public void Logout(ISessionToken sessionToken)
         {
-            //_sessionDataHolder.AssetCallIsFromCorrectClient(sessionToken);
+            _sessionDataHolder.AssetCallIsFromCorrectClient(sessionToken);
             _sessionDataHolder.DeleteSession(sessionToken);
         }
 
@@ -86,6 +77,11 @@ namespace NashSecurity
         {
             if (logiPassword == null) throw new LoginPasswordIsShortException();
             if (logiPassword.Length < 8) throw new LoginPasswordIsShortException();
+        }
+
+        private void AssertAccountExists(string userName)
+        {
+            if (!_accountDataGateway.DoesAccountExist(userName)) throw new AccountOrPasswordIsIncorrectException();
         }
 
         private void AssetCallIsFromCorrectClient(ISessionToken sessionToken)
@@ -155,6 +151,14 @@ namespace NashSecurity
 
         public class LoginPasswordIsShortException : ApplicationException
         {
+        }
+
+        public class DataGatewayException : ApplicationException
+        {
+            public DataGatewayException(string message, Exception exception): base(message,exception)
+            {
+
+            }
         }
     }
 }

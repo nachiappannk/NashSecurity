@@ -42,6 +42,7 @@
     <Compile Include="AccountData\EncryptedAccount.cs" />
     <Compile Include="AesCryptor.cs" />
     <Compile Include="Cryptor.cs" />
+    <Compile Include="ExceptionHandingAccountDataGateway.cs" />
     <Compile Include="ICryptor.cs" />
     <Compile Include="AccountData\IAccountDataGateway.cs" />
     <Compile Include="InternalCryptor\InternalContentCryptor.cs" />

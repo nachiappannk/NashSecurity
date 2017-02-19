@@ -19,14 +19,4 @@ namespace NashSecurity.AccountData
             return accountDataGateway.GetUserNames().Contains(userName);
         }
     }
-
-
-
-    public class DataGatewayAccountDoesNotExistException : ApplicationException
-    {
-    }
-
-    public class DataGatewayAccountExistException : ApplicationException
-    {
-    }
 }

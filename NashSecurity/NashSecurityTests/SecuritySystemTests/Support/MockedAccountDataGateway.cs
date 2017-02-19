@@ -7,7 +7,6 @@ namespace NashSecurity.Tests.SecuritySystemTests.Support
 {
     public class MockedAccountDataGateway : IAccountDataGateway
     {
-
         public event Action<EncryptedAccount> StoreEncryptedAccountCalled;
         public event Action<string> DeleteEncryptedAccountCalled;
         public event Action<EncryptedAccount> UpdatEncryptedAccountCalled;
@@ -21,7 +20,7 @@ namespace NashSecurity.Tests.SecuritySystemTests.Support
 
         public void StoreEncryptedAccount(EncryptedAccount encryptedAccount)
         {
-            if(this.DoesAccountExist(encryptedAccount.UserName)) throw new DataGatewayAccountExistException();
+            if(this.DoesAccountExist(encryptedAccount.UserName)) throw new Exception();
             _userName2AccountsLookUp.Add(encryptedAccount.UserName,encryptedAccount);
             FireStoreEncryptedAccountCalled(encryptedAccount);
         }
@@ -33,7 +32,7 @@ namespace NashSecurity.Tests.SecuritySystemTests.Support
 
         public EncryptedAccount ReadEncryptedAccount(string userName)
         {
-            if (!this.DoesAccountExist(userName)) throw new DataGatewayAccountDoesNotExistException();
+            if (!this.DoesAccountExist(userName)) throw new Exception();
             return _userName2AccountsLookUp[userName];
         }
 

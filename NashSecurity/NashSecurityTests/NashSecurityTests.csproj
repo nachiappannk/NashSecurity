@@ -59,7 +59,7 @@
     <Compile Include="InternalCryptorTests\ContentCryptorTests\ContentCryptorTests.SimpleTests.cs" />
     <Compile Include="InternalCryptorTests\PasswordCryptorTests.cs" />
     <Compile Include="SecuritySystemTests\LoggedOutSecuritySystemTests.cs" />
-    <Compile Include="SecuritySystemTests\SecuritySystemsWithBadAccountGatewayTests.cs" />
+    <Compile Include="SecuritySystemTests\SecuritySystemsWithBadAccountDataGatewayTests.cs" />
     <Compile Include="SecuritySystemTests\SignUpParametersValidationTests.cs" />
     <Compile Include="SecuritySystemTests\Support\ILoginHelper.cs" />
     <Compile Include="SecuritySystemTests\LoggedInSecuritySystemTests.cs" />

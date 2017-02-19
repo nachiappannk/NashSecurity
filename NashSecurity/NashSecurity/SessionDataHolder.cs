@@ -49,7 +49,6 @@
 
         public void DeleteSession(ISessionToken sessionToken)
         {
-            AssetCallIsFromCorrectClient(sessionToken);
             _sessionToken = null;
             _sessionData = null;
         }

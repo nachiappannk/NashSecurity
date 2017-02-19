@@ -9,7 +9,7 @@ namespace NashSecurity.Tests.SecuritySystemTests
     public class SecuritySystemTests
     {
         protected MockedAccountDataGateway MockedAccountDataGateway;
-        protected SecuritySystem SecuritySystem { get; set; }
+        protected ISecuritySystem SecuritySystem { get; set; }
         protected readonly AccountInfo AccountInfo = new AccountInfo("UserName1", "MasterPassword", "LoginPassword");
 
         [SetUp]
@@ -17,7 +17,7 @@ namespace NashSecurity.Tests.SecuritySystemTests
         {
             TestHelper.TraceMethodName();
             MockedAccountDataGateway = new MockedAccountDataGateway();
-            SecuritySystem = new SecuritySystem(MockedAccountDataGateway);
+            SecuritySystem = SecuritySystemFactory.GetSecuritySystem(MockedAccountDataGateway);
         }
 
         public class SecuritySystemSpecificTests : SecuritySystemTests

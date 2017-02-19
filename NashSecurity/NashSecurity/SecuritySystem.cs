@@ -6,7 +6,7 @@ using NashSecurity.InternalCryptor;
 
 namespace NashSecurity
 {
-    public class SecuritySystem
+    public class SecuritySystem : ISecuritySystem
     {
         private readonly IAccountDataGateway _accountDataGateway;
         private readonly SessionDataHolder _sessionDataHolder = new SessionDataHolder();

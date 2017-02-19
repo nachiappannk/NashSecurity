@@ -48,9 +48,11 @@
     <Compile Include="InternalCryptor\InternalContentCryptor.cs" />
     <Compile Include="InternalCryptor\InternalCryptor.cs" />
     <Compile Include="InternalCryptor\InternalPasswordCryptor.cs" />
+    <Compile Include="ISecuritySystem.cs" />
     <Compile Include="SecuritySystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ISessionToken.cs" />
+    <Compile Include="SecuritySystemFactory.cs" />
     <Compile Include="SessionData.cs" />
     <Compile Include="SessionDataHolder.cs" />
   </ItemGroup>

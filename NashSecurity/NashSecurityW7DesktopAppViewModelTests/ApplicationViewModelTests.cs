@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,33 +9,22 @@ namespace NashSecurityW7DesktopAppViewModel.Tests
     [TestFixture()]
     public class ApplicationViewModelTests
     {
-        private ApplicationViewModel _applicationViewModel;
-        private PreLoginViewModel _preLoginViewModel;
+        protected ApplicationViewModel ApplicationViewModel;
+        protected SessionTokenHolder SessionTokenHolder;
+        
 
+        [SetUp]
         public void SetUp()
         {
             GivenApplicationIsCreated();
-            var mainContentViewModel = _applicationViewModel.MainContentViewModel;
-            Assume.That(mainContentViewModel.GetType() == typeof(PreLoginViewModel));
-            _preLoginViewModel = mainContentViewModel;
-
         }
 
         private void GivenApplicationIsCreated()
         {
-            _applicationViewModel = new ApplicationViewModel();
+            ApplicationViewModel = new ApplicationViewModel();
+            SessionTokenHolder = ApplicationViewModel.SessionTokenHolder;
         }
 
-        [Test]
-        public void SignUpTests()
-        {
-            var signUpViewModel = _preLoginViewModel.SignUpViewModel;
-            signUpViewModel.UserName = "UserName";
-            signUpViewModel.MasterPassword = "MasterPassword";
-            signUpViewModel.LoginPassword = "LogingPassword";
-            signUpViewModel.SignUpCommand.CanExecute(null);
-        }
-
-
+        
     }
 }

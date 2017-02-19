@@ -2,7 +2,7 @@
 {
     public class SignInLoginHelper : ILoginHelper
     {
-        public ISessionToken Login(SecuritySystem securitySystem, MockedAccountDataGateway mockedAccountDataGateway,
+        public ISessionToken Login(ISecuritySystem securitySystem, MockedAccountDataGateway mockedAccountDataGateway,
             AccountInfo accountInfo)
         {
             var sessionToken = securitySystem.SignUp(accountInfo);

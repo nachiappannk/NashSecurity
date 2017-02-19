@@ -2,7 +2,7 @@
 {
     public interface ILoginHelper
     {
-        ISessionToken Login(SecuritySystem securitySystem, MockedAccountDataGateway mockedAccountDataGateway,
+        ISessionToken Login(ISecuritySystem securitySystem, MockedAccountDataGateway mockedAccountDataGateway,
             AccountInfo accountInfo);
     }
 }

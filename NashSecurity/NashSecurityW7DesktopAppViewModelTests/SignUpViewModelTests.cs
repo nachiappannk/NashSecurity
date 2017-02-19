@@ -7,9 +7,10 @@ namespace NashSecurityW7DesktopAppViewModel.Tests
     {
         private SignUpViewModel SignUpViewModel;
 
+        [SetUp]
         public void SignUpSetUp()
         {
-
+            SignUpViewModel = PreLoginViewModel.SignUpViewModel;
         }
 
         [TestCase("user", "1234567890123456", "12345678", false)]
@@ -21,7 +22,6 @@ namespace NashSecurityW7DesktopAppViewModel.Tests
         public void When_sign_up_parameters_are_set_then_sign_up_possibility_is_determined(string username,
             string masterPassword, string loginPassword, bool isSignUpPossible)
         {
-            SignUpViewModel = PreLoginViewModel.SignUpViewModel;
             SignUpViewModel.UserName = username;
             SignUpViewModel.MasterPassword = masterPassword;
             SignUpViewModel.LoginPassword = loginPassword;
@@ -31,10 +31,9 @@ namespace NashSecurityW7DesktopAppViewModel.Tests
         [Test]
         public void When_sign_up_parameter_is_set_then_changed_event_is_raised()
         {
-            var signUpViewModel = PreLoginViewModel.SignUpViewModel;
-            AssertChangedEventOnSettingParameter(signUpViewModel, () => signUpViewModel.UserName = "something");
-            AssertChangedEventOnSettingParameter(signUpViewModel, () => signUpViewModel.LoginPassword = "something");
-            AssertChangedEventOnSettingParameter(signUpViewModel, () => signUpViewModel.MasterPassword = "something");
+            AssertChangedEventOnSettingParameter(() => SignUpViewModel.UserName = "something");
+            AssertChangedEventOnSettingParameter(() => SignUpViewModel.LoginPassword = "something");
+            AssertChangedEventOnSettingParameter(() => SignUpViewModel.MasterPassword = "something");
         }
 
         [Test]
@@ -43,14 +42,12 @@ namespace NashSecurityW7DesktopAppViewModel.Tests
             
         }
 
-        private static void AssertChangedEventOnSettingParameter(SignUpViewModel signUpViewModel, Action parameterSettingAction)
+        private void AssertChangedEventOnSettingParameter(Action parameterSettingAction)
         {
             var canExecutedChanged = false;
-            signUpViewModel.SignUpCommand.CanExecuteChanged += (sender, args) => { canExecutedChanged = true; };
+            SignUpViewModel.SignUpCommand.CanExecuteChanged += (sender, args) => { canExecutedChanged = true; };
             parameterSettingAction.Invoke();
             Assert.True(canExecutedChanged);
         }
-
-
     }
 }

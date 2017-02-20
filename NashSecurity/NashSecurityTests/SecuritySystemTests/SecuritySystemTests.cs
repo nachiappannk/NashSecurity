@@ -1,71 +1,54 @@
-﻿using System;
-using NashSecurity.AccountData;
+﻿using NashSecurity.AccountData;
+using NashSecurity.Tests.Context;
 using NashSecurity.Tests.SecuritySystemTests.Support;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.SecuritySystemTests
 {
     [TestFixture()]
-    public class SecuritySystemTests
+    public class SecuritySystemTests : SecuritySystemCreatedContext
     {
-        protected MockedAccountDataGateway MockedAccountDataGateway;
-        protected ISecuritySystem SecuritySystem { get; set; }
-        protected readonly AccountInfo AccountInfo = new AccountInfo("UserName1", "MasterPassword", "LoginPassword");
-
-        [SetUp]
-        public void GivenSecuritySystemIsCreatedWithMockedDataGateWay()
+        [Test]
+        public void WhenSigningUpThenSessionTokenIsGot()
         {
-            TestHelper.TraceMethodName();
-            MockedAccountDataGateway = new MockedAccountDataGateway();
-            SecuritySystem = SecuritySystemFactory.GetSecuritySystem(MockedAccountDataGateway);
+            var sessionToken = SecuritySystem.SignUp(AccountInfo);
+            Assert.NotNull(sessionToken);
         }
 
-        public class SecuritySystemSpecificTests : SecuritySystemTests
+        [Test, ExpectedException(typeof(SecuritySystem.NotLoggedInException))]
+        public void WhenLoggingOutOfUnLoggedInSystemThenException()
         {
+            SecuritySystem.Logout(new MockedSessionToken());
+        }
 
-
-            [Test]
-            public void WhenSigningUpThenSessionTokenIsGot()
+        [Test]
+        public void WhenSigningUpThenAccountIsCreatedAtAccountDataGateway()
+        {
+            var created = false;
+            EncryptedAccount creationParameter = null;
+            MockedAccountDataGateway.StoreEncryptedAccountCalled += (parameter) =>
             {
-                var sessionToken = SecuritySystem.SignUp(AccountInfo);
-                Assert.NotNull(sessionToken);
-            }
+                created = true;
+                creationParameter = parameter;
+            };
 
-            [Test, ExpectedException(typeof(SecuritySystem.NotLoggedInException))]
-            public void WhenLoggingOutOfUnLoggedInSystemThenException()
-            {
-                SecuritySystem.Logout(new MockedSessionToken());
-            }
+            SecuritySystem.SignUp(AccountInfo);
 
-            [Test]
-            public void WhenSigningUpThenAccountIsCreatedAtAccountDataGateway()
-            {
-                var created = false;
-                EncryptedAccount creationParameter = null;
-                MockedAccountDataGateway.StoreEncryptedAccountCalled += (parameter) =>
-                {
-                    created = true;
-                    creationParameter = parameter;
-                };
+            Assert.AreEqual(true, created);
+            Assert.NotNull(creationParameter);
+            Assert.AreEqual(AccountInfo.AccountName, creationParameter.UserName);
+        }
 
-                SecuritySystem.SignUp(AccountInfo);
+        [Test, ExpectedException(typeof(SecuritySystem.NotLoggedInException))]
+        public void WhenLoggingOutOfNotLoggedInSystem()
+        {
+            SecuritySystem.Logout(new MockedSessionToken());
+        }
 
-                Assert.AreEqual(true, created);
-                Assert.NotNull(creationParameter);
-                Assert.AreEqual(AccountInfo.AccountName, creationParameter.UserName);        
-            }
-
-            [Test, ExpectedException(typeof(SecuritySystem.NotLoggedInException))]
-            public void WhenLoggingOutOfNotLoggedInSystem()
-            {
-                SecuritySystem.Logout(new MockedSessionToken());
-            }
-
-            [Test, ExpectedException(typeof(SecuritySystem.NotLoggedInException))]
-            public void CreateCryptor()
-            {
-                SecuritySystem.GetCryptor(new MockedSessionToken());
-            }
+        [Test, ExpectedException(typeof(SecuritySystem.NotLoggedInException))]
+        public void CreateCryptor()
+        {
+            SecuritySystem.GetCryptor(new MockedSessionToken());
         }
     }
 }

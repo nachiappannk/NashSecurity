@@ -51,18 +51,29 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AesCryptorTests.cs" />
-    <Compile Include="Cryptor\CryptorTests.BasicTests.cs" />
+    <Compile Include="Context\CryptorCreatedSecuritySystemContext.cs" />
+    <Compile Include="Context\IEnteredInSecuritySystemContext.cs" />
+    <Compile Include="Context\IExitedSecurityContext.cs" />
+    <Compile Include="Context\LoggedOutAfterSiginInSecurityContext.cs" />
+    <Compile Include="Context\LoggedOutSecuritySystemContext.cs" />
+    <Compile Include="Context\SignedInSecuritySystemContext.cs" />
+    <Compile Include="Context\SignedUpSecuritySystemContext.cs" />
     <Compile Include="Cryptor\CryptorTests.cs" />
     <Compile Include="Cryptor\CryptorTests.FileCryptingTests.cs" />
     <Compile Include="InternalCryptorTests\ContentCryptorTests\ContentCryptorTests.cs" />
     <Compile Include="InternalCryptorTests\ContentCryptorTests\ContentCryptorTests.LargeDataTests.cs" />
     <Compile Include="InternalCryptorTests\ContentCryptorTests\ContentCryptorTests.SimpleTests.cs" />
     <Compile Include="InternalCryptorTests\PasswordCryptorTests.cs" />
+    <Compile Include="Context\ExitedSecuritySystemContext.cs" />
+    <Compile Include="SecuritySystemTests\EnteredInSecuritySystemContext.cs" />
     <Compile Include="SecuritySystemTests\LoggedOutSecuritySystemTests.cs" />
+    <Compile Include="Context\SecuritySystemCreatedContext.cs" />
     <Compile Include="SecuritySystemTests\SecuritySystemsWithBadAccountDataGatewayTests.cs" />
+    <Compile Include="SecuritySystemTests\SignUpParameterTests\LoggedInSecuritySystemTests.cs" />
+    <Compile Include="SecuritySystemTests\SignUpParameterTests\SignUpParametersInLoggedOutSystemsTests.cs" />
     <Compile Include="SecuritySystemTests\SignUpParametersValidationTests.cs" />
     <Compile Include="SecuritySystemTests\Support\ILoginHelper.cs" />
-    <Compile Include="SecuritySystemTests\LoggedInSecuritySystemTests.cs" />
+    <Compile Include="SecuritySystemTests\EnteredInSecuritySystemTests.cs" />
     <Compile Include="SecuritySystemTests\Support\SecuritySystemTextExtentions.cs" />
     <Compile Include="SecuritySystemTests\Support\SignInLoginHelper.cs" />
     <Compile Include="SecuritySystemTests\Support\SignUpLoginHelper.cs" />
@@ -71,7 +82,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecuritySystemTests\SecuritySystemTests.cs" />
     <Compile Include="SecuritySystemTests\Support\AccountInfo.cs" />
-    <Compile Include="SecuritySystemTests\TestHelper.cs" />
+    <Compile Include="SecuritySystemTests\Support\TestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="InternalCryptorTests\ContentCryptorTests\EncryptedTestFile.jpg.nsec" />

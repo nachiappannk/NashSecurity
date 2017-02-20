@@ -2,6 +2,8 @@
 using System.IO;
 using System.Threading;
 using NashSecurity.InternalCryptor;
+using NashSecurity.Tests.Context;
+using NashSecurity.Tests.SecuritySystemTests;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.Cryptor
@@ -16,11 +18,17 @@ namespace NashSecurity.Tests.Cryptor
             private static byte[] _plainBytes;
             private static byte[] _encryptedBytes;
 
-            public FileCryptingTests(Type loginHelperType) : base(loginHelperType)
+            public FileCryptingTests(Type enteredInContextType) : base(enteredInContextType)
             {
                 _plainFile = "file.txt";
                 _encryptedFile = "file.txt.nsec";
                 _plainBytes = new byte[]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 };
+                
+            }
+
+            [SetUp]
+            public void SetUUUP()
+            {
                 _encryptedBytes = InternalContentCryptor.EncryptBytes(AccountInfo.MasterPassword,
                         _plainBytes);
             }

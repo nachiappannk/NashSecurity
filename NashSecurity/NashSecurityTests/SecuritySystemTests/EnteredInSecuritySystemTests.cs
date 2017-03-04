@@ -1,4 +1,5 @@
 ﻿using System;
+using NashSecurity.Tests.Context;
 using NashSecurity.Tests.SecuritySystemTests.Support;
 using NUnit.Framework;
 

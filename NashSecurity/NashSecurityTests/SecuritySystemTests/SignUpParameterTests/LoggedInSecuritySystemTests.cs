@@ -1,4 +1,5 @@
 using System;
+using NashSecurity.Tests.Context;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.SecuritySystemTests.SignUpParameterTests

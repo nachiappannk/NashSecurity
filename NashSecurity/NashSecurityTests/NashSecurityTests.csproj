@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>.\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -51,45 +54,54 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AesCryptorTests.cs" />
-    <Compile Include="Context\CryptorCreatedSecuritySystemContext.cs" />
-    <Compile Include="Context\IEnteredInSecuritySystemContext.cs" />
-    <Compile Include="Context\IExitedSecurityContext.cs" />
-    <Compile Include="Context\LoggedOutAfterSiginInSecurityContext.cs" />
-    <Compile Include="Context\LoggedOutSecuritySystemContext.cs" />
-    <Compile Include="Context\SignedInSecuritySystemContext.cs" />
-    <Compile Include="Context\SignedUpSecuritySystemContext.cs" />
+    <Compile Include="ScenarioBasedTestingTools\IScenarioDataFactory.cs" />
+    <Compile Include="ScenarioBasedTestingTools\ScenarioBasedTestingExtentions.cs" />
+    <Compile Include="ScenarioBasedTestingTools\ToDoAttribute.cs" />
+    <Compile Include="ScenarioTests\CryptorCreatedScenarioTests.cs" />
+    <Compile Include="ScenarioTests\EnteredScenarioTests.cs" />
+    <Compile Include="ScenarioTests\ExitedScenarioTests.cs" />
+    <Compile Include="ScenarioBasedTestingTools\FixtureHelper.cs" />
+    <Compile Include="ScenarioTests\Factories\HasEnteredData\SignedUpScenarioDataFactory.cs" />
+    <Compile Include="ScenarioTests\Factories\HasEnteredData\SignedInScenarioDataFactory.cs" />
+    <Compile Include="ScenarioTests\Factories\HasExitedData\LoggedOutAfterSignInScenarioDataFactory.cs" />
+    <Compile Include="ScenarioTests\Factories\HasExitedData\LoggedOutAfterSignUpScenarioDataFactory.cs" />
+    <Compile Include="Scenario\Implementation\CryptorCreatedScenario.cs" />
+    <Compile Include="Scenario\IHasCryptorCreatedData.cs" />
+    <Compile Include="Scenario\IHasEnteredData.cs" />
+    <Compile Include="Scenario\IHasExitedData.cs" />
+    <Compile Include="Scenario\IHasCreatedData.cs" />
+    <Compile Include="Scenario\Implementation\ExitedScenario.cs" />
+    <Compile Include="ScenarioTests\CreatedScenarioTests.cs" />
+    <Compile Include="Scenario\Implementation\SignedInSecuritySystemScenario.cs" />
+    <Compile Include="Scenario\Implementation\SignedUpScenario.cs" />
     <Compile Include="Cryptor\CryptorTests.cs" />
     <Compile Include="Cryptor\CryptorTests.FileCryptingTests.cs" />
-    <Compile Include="InternalCryptorTests\ContentCryptorTests\ContentCryptorTests.cs" />
-    <Compile Include="InternalCryptorTests\ContentCryptorTests\ContentCryptorTests.LargeDataTests.cs" />
-    <Compile Include="InternalCryptorTests\ContentCryptorTests\ContentCryptorTests.SimpleTests.cs" />
-    <Compile Include="InternalCryptorTests\PasswordCryptorTests.cs" />
-    <Compile Include="Context\ExitedSecuritySystemContext.cs" />
-    <Compile Include="Context\EnteredInSecuritySystemContext.cs" />
-    <Compile Include="SecuritySystemTests\LoggedOutSecuritySystemTests.cs" />
-    <Compile Include="Context\SecuritySystemCreatedContext.cs" />
-    <Compile Include="SecuritySystemTests\SecuritySystemsWithBadAccountDataGatewayTests.cs" />
-    <Compile Include="SecuritySystemTests\SignUpParameterTests\LoggedInSecuritySystemTests.cs" />
-    <Compile Include="SecuritySystemTests\SignUpParameterTests\SignUpParametersInLoggedOutSystemsTests.cs" />
-    <Compile Include="SecuritySystemTests\SignUpParametersValidationTests.cs" />
-    <Compile Include="SecuritySystemTests\Support\ILoginHelper.cs" />
-    <Compile Include="SecuritySystemTests\EnteredInSecuritySystemTests.cs" />
-    <Compile Include="SecuritySystemTests\Support\SecuritySystemTextExtentions.cs" />
-    <Compile Include="SecuritySystemTests\Support\SignInLoginHelper.cs" />
-    <Compile Include="SecuritySystemTests\Support\SignUpLoginHelper.cs" />
-    <Compile Include="SecuritySystemTests\Support\MockedSessionToken.cs" />
-    <Compile Include="SecuritySystemTests\Support\MockedAccountDataGateway.cs" />
+    <Compile Include="InternalCryptorTests\InternalContentCryptorTests\InternalContentCryptorTests.cs" />
+    <Compile Include="InternalCryptorTests\InternalContentCryptorTests\InternalContentCryptorTests.LargeDataTests.cs" />
+    <Compile Include="InternalCryptorTests\InternalContentCryptorTests\InternalContentCryptorTests.SimpleTests.cs" />
+    <Compile Include="InternalCryptorTests\InternalPasswordCryptorTests.cs" />
+    <Compile Include="Scenario\Implementation\SecuritySystemCreatedScenario.cs" />
+    <Compile Include="SecuritySystemTests\SecuritySystemTests.BadAccountDataGatewayTests.cs" />
+    <Compile Include="SecuritySystemTests\SecuritySystemTests.EnteredInTests.cs" />
+    <Compile Include="SecuritySystemTests\SecuritySystemTests.CreatedTests.cs" />
+    <Compile Include="SecuritySystemTests\SecuritySystemTests.ExitedTests.cs" />
+    <Compile Include="SecuritySystemTests\SecuritySystemTests.SignUpParametersTestsInExitedScenario.cs" />
+    <Compile Include="SecuritySystemTests\SecuritySystemTests.SignUpParameterTestsInAccountCreatedScenario.cs" />
+    <Compile Include="SecuritySystemTests\SecuritySystemTests.SignUpParameterTestsInAccountCreatedScenario1.cs" />
+    <Compile Include="SecuritySystemTests\SecuritySystemTests.SignUpParameterTestsInEnteredScenario.cs" />
+    <Compile Include="Support\SecuritySystemTextExtentions.cs" />
+    <Compile Include="Support\MockedSessionToken.cs" />
+    <Compile Include="Support\MockedAccountDataGateway.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecuritySystemTests\SecuritySystemTests.cs" />
-    <Compile Include="SecuritySystemTests\Support\AccountInfo.cs" />
-    <Compile Include="SecuritySystemTests\Support\TestHelper.cs" />
+    <Compile Include="Support\AccountInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="InternalCryptorTests\ContentCryptorTests\EncryptedTestFile.jpg.nsec" />
+    <EmbeddedResource Include="InternalCryptorTests\InternalContentCryptorTests\EncryptedTestFile.jpg.nsec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="InternalCryptorTests\ContentCryptorTests\TestFile.jpg" />
+    <EmbeddedResource Include="InternalCryptorTests\InternalContentCryptorTests\TestFile.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NashSecurity\NashSecurity.csproj">
@@ -97,6 +109,7 @@
       <Name>NashSecurity</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

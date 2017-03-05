@@ -1,4 +1,6 @@
-﻿namespace NashSecurity
+﻿using System.Diagnostics;
+
+namespace NashSecurity
 {
     public class SessionDataHolder
     {

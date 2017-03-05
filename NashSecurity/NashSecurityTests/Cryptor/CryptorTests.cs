@@ -1,28 +1,18 @@
 ﻿using System;
 using NashSecurity.InternalCryptor;
-using NashSecurity.Tests.Context;
+using NashSecurity.Tests.Scenario;
+using NashSecurity.Tests.ScenarioTests;
 using NashSecurity.Tests.SecuritySystemTests;
 using NashSecurity.Tests.SecuritySystemTests.Support;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.Cryptor
 {
-    public partial class CryptorTests : EnteredInSecuritySystemContext
+    public partial class CryptorTests : CryptorCreatedScenarioTests
     {
-        private readonly Type _enteredInSecurityContextType;
-        protected ICryptor Cryptor { get; set; }
         public CryptorTests(Type enteredInSecurityContextType) : base(enteredInSecurityContextType)
         {
-            _enteredInSecurityContextType = enteredInSecurityContextType;
         }
-
-        [SetUp]
-        public void CryptorTestsSetUp()
-        {
-            Cryptor = SecuritySystem.GetCryptor(SessionToken);
-        }
-
-        
 
         [Test]
         public void Encrypt()

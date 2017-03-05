@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading;
 using NashSecurity.InternalCryptor;
-using NashSecurity.Tests.Context;
 using NashSecurity.Tests.SecuritySystemTests;
 using NUnit.Framework;
 

@@ -3,7 +3,6 @@ using NashSecurity.InternalCryptor;
 using NashSecurity.Tests.Scenario;
 using NashSecurity.Tests.ScenarioTests;
 using NashSecurity.Tests.SecuritySystemTests;
-using NashSecurity.Tests.SecuritySystemTests.Support;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.Cryptor

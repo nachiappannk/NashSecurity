@@ -1,4 +1,4 @@
-using NashSecurity.Tests.SecuritySystemTests.Support;
+using NashSecurity.Tests.Support;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.Scenario

@@ -1,7 +1,7 @@
 using NashSecurity.Tests.ScenarioBasedTestingTools;
-using NashSecurity.Tests.SecuritySystemTests.Support;
+using NashSecurity.Tests.Support;
 
-namespace NashSecurity.Tests.Scenario
+namespace NashSecurity.Tests.Scenario.Implementation
 {
     public class CryptorCreatedScenario : IHasCryptorCreatedData
     {

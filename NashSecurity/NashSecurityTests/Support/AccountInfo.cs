@@ -1,4 +1,4 @@
-﻿namespace NashSecurity.Tests.SecuritySystemTests.Support
+﻿namespace NashSecurity.Tests.Support
 {
     public class AccountInfo
     {

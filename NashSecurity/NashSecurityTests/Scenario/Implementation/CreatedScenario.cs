@@ -1,15 +1,15 @@
-﻿using NashSecurity.Tests.SecuritySystemTests.Support;
+﻿using NashSecurity.Tests.Support;
 
 namespace NashSecurity.Tests.Scenario.Implementation
 {
-    public class SecuritySystemCreatedScenario : IHasCreatedData
+    public class CreatedScenario : IHasCreatedData
     {
         public MockedAccountDataGateway MockedAccountDataGateway { get; set; }
         public ISecuritySystem SecuritySystem { get; set; }
         public AccountInfo AccountInfo { get; set; }
 
 
-        public SecuritySystemCreatedScenario()
+        public CreatedScenario()
         {
             AccountInfo = new AccountInfo("UserName1", "MasterPassword", "LoginPassword");
             GivenSecuritySystemIsCreatedWithMockedDataGateWay();

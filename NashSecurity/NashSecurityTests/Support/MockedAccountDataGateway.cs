@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NashSecurity.AccountData;
 
-namespace NashSecurity.Tests.SecuritySystemTests.Support
+namespace NashSecurity.Tests.Support
 {
     public class MockedAccountDataGateway : IAccountDataGateway
     {

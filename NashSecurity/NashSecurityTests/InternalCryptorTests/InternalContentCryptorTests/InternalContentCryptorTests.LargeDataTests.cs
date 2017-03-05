@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using NUnit.Framework;
 
-namespace NashSecurity.Tests.InternalCryptorTests.ContentCryptorTests
+namespace NashSecurity.Tests.InternalCryptorTests.InternalContentCryptorTests
 {
     public partial class InternalContentCryptorTests
     {

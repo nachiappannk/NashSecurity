@@ -1,5 +1,6 @@
 using System;
 using NashSecurity.Tests.Scenario;
+using NashSecurity.Tests.Scenario.Implementation;
 using NashSecurity.Tests.ScenarioBasedTestingTools;
 using NUnit.Framework;
 

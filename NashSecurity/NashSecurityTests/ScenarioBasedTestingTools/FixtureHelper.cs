@@ -1,9 +1,8 @@
 using System;
 using System.Reflection;
-using NashSecurity.Tests.ScenarioBasedTestingTools;
 using NUnit.Framework;
 
-namespace NashSecurity.Tests.Scenario
+namespace NashSecurity.Tests.ScenarioBasedTestingTools
 {
     [ToDo("This needs to be cleaned up. Dead code needs to be deleted.",
         "Another library needs to be created")]

@@ -1,18 +1,16 @@
-using NashSecurity.Tests.Scenario.Implementation;
 using NashSecurity.Tests.ScenarioBasedTestingTools;
-using NashSecurity.Tests.SecuritySystemTests.Support;
-using NUnit.Framework;
+using NashSecurity.Tests.Support;
 
-namespace NashSecurity.Tests.Scenario
+namespace NashSecurity.Tests.Scenario.Implementation
 {
-    public class SignedInSecuritySystemScenario : IHasEnteredData
+    public class SignedInScenario : IHasEnteredData
     {
         public ISessionToken SessionToken { get; set; }
         public ISecuritySystem SecuritySystem { get; set; }
         public MockedAccountDataGateway MockedAccountDataGateway { get; set; }
         public AccountInfo AccountInfo { get; set; }
 
-        public SignedInSecuritySystemScenario()
+        public SignedInScenario()
         {
             var previousScenario = new ExitedScenario(new SignedUpScenario());
             previousScenario.MoveToScenario<IHasExitedData, IHasEnteredData>(this);

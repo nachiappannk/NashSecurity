@@ -1,7 +1,8 @@
 using System;
 using NashSecurity.Tests.Scenario;
 using NashSecurity.Tests.ScenarioBasedTestingTools;
-using NashSecurity.Tests.SecuritySystemTests.Support;
+using NashSecurity.Tests.ScenarioTests.Factories.HasExitedData;
+using NashSecurity.Tests.Support;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.ScenarioTests

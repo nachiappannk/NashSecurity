@@ -1,6 +1,6 @@
 ﻿using System;
 using NashSecurity.Tests.ScenarioTests;
-using NashSecurity.Tests.SecuritySystemTests.Support;
+using NashSecurity.Tests.Support;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.SecuritySystemTests

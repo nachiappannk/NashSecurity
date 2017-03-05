@@ -72,7 +72,7 @@
     <Compile Include="Scenario\IHasCreatedData.cs" />
     <Compile Include="Scenario\Implementation\ExitedScenario.cs" />
     <Compile Include="ScenarioTests\CreatedScenarioTests.cs" />
-    <Compile Include="Scenario\Implementation\SignedInSecuritySystemScenario.cs" />
+    <Compile Include="Scenario\Implementation\SignedInScenario.cs" />
     <Compile Include="Scenario\Implementation\SignedUpScenario.cs" />
     <Compile Include="Cryptor\CryptorTests.cs" />
     <Compile Include="Cryptor\CryptorTests.FileCryptingTests.cs" />
@@ -80,7 +80,7 @@
     <Compile Include="InternalCryptorTests\InternalContentCryptorTests\InternalContentCryptorTests.LargeDataTests.cs" />
     <Compile Include="InternalCryptorTests\InternalContentCryptorTests\InternalContentCryptorTests.SimpleTests.cs" />
     <Compile Include="InternalCryptorTests\InternalPasswordCryptorTests.cs" />
-    <Compile Include="Scenario\Implementation\SecuritySystemCreatedScenario.cs" />
+    <Compile Include="Scenario\Implementation\CreatedScenario.cs" />
     <Compile Include="SecuritySystemTests\SecuritySystemTests.BadAccountDataGatewayTests.cs" />
     <Compile Include="SecuritySystemTests\SecuritySystemTests.EnteredInTests.cs" />
     <Compile Include="SecuritySystemTests\SecuritySystemTests.CreatedTests.cs" />

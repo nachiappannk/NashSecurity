@@ -1,7 +1,7 @@
 using NashSecurity.Tests.Scenario;
 using NashSecurity.Tests.Scenario.Implementation;
 using NashSecurity.Tests.ScenarioBasedTestingTools;
-using NashSecurity.Tests.SecuritySystemTests.Support;
+using NashSecurity.Tests.Support;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.ScenarioTests
@@ -16,7 +16,7 @@ namespace NashSecurity.Tests.ScenarioTests
         [SetUp]
         public void SetUp()
         {
-            typeof(SecuritySystemCreatedScenario).CopyScenarioDataFromType<IHasCreatedData>(this);
+            typeof(CreatedScenario).CopyScenarioDataFromType<IHasCreatedData>(this);
         }
     }
 }

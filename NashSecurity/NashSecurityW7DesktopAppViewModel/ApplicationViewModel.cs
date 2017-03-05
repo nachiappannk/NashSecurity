@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NashSecurity;
-using NashSecurity.Tests.SecuritySystemTests.Support;
+using NashSecurity.Tests.Support;
 
 namespace NashSecurityW7DesktopAppViewModel
 {

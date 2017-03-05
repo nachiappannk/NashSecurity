@@ -1,7 +1,7 @@
 ﻿using NashSecurity.InternalCryptor;
 using NUnit.Framework;
 
-namespace NashSecurity.Tests.InternalCryptorTests.ContentCryptorTests
+namespace NashSecurity.Tests.InternalCryptorTests.InternalContentCryptorTests
 {
     [TestFixture]
     public partial class InternalContentCryptorTests

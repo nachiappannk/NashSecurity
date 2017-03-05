@@ -1,8 +1,7 @@
-using NashSecurity.Tests.Scenario.Implementation;
 using NashSecurity.Tests.ScenarioBasedTestingTools;
-using NashSecurity.Tests.SecuritySystemTests.Support;
+using NashSecurity.Tests.Support;
 
-namespace NashSecurity.Tests.Scenario
+namespace NashSecurity.Tests.Scenario.Implementation
 {
     public class SignedUpScenario : IHasEnteredData
     {
@@ -13,7 +12,7 @@ namespace NashSecurity.Tests.Scenario
 
         public SignedUpScenario()
         {
-            var previousScenario = new SecuritySystemCreatedScenario();
+            var previousScenario = new CreatedScenario();
             previousScenario.MoveToScenario<IHasCreatedData, IHasEnteredData>(this);
             SessionToken = SecuritySystem.SignUp(AccountInfo);
         }

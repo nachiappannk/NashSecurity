@@ -1,5 +1,5 @@
 using NashSecurity.Tests.ScenarioBasedTestingTools;
-using NashSecurity.Tests.SecuritySystemTests.Support;
+using NashSecurity.Tests.Support;
 
 namespace NashSecurity.Tests.Scenario.Implementation
 {

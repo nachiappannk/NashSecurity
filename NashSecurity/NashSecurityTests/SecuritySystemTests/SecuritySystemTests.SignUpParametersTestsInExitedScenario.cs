@@ -1,13 +1,35 @@
 ﻿using System;
+using NashLink;
 using NashSecurity.Tests.ScenarioTests;
+using NashSecurity.Tests.State.Factories.ExitedStateFactory;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.SecuritySystemTests
 {
     public partial class SecuritySystemTests
     {
-        public class SignUpParametersTestsInExitedScenario : ExitedScenarioTests
+        [TestFixture(typeof(LoggedOutAfterSignInStateFactory))]
+        [TestFixture(typeof(LoggedOutAfterSignUpStateFactory))]
+        public class SignUpParametersTestsInExitedScenario : HasExitedData
         {
+            private readonly Type _exitedStateFactoryType;
+
+            public SignUpParametersTestsInExitedScenario(Type exitedStateFactoryType)
+            {
+                _exitedStateFactoryType = exitedStateFactoryType;
+            }
+
+            [SetUp]
+            public void SetUp()
+            {
+                new NashLinker()
+                .CreateStateWithFactoryType(_exitedStateFactoryType, "CreateState")
+                .EnableFixtureInitializationCheck()
+                .EnableStateTrace()
+                .LinkStateToFixture(this);
+            }
+
+
             [TestCase(null, typeof(SecuritySystem.UserNameForSignUpIsEmptyException))]
             [TestCase(" ", typeof(SecuritySystem.UserNameForSignUpIsEmptyException))]
             [TestCase("a", typeof(SecuritySystem.UserNameForSignUpIsTooShortException))]
@@ -64,11 +86,6 @@ namespace NashSecurity.Tests.SecuritySystemTests
             private void AssertUserNameForSignUpIsCorrect(string userName)
             {
                 SecuritySystem.AssertUserNameIsValidForSignUp(userName);
-            }
-
-            public SignUpParametersTestsInExitedScenario(Type exitedScenarioFactoryType)
-                : base(exitedScenarioFactoryType)
-            {
             }
         }
     }

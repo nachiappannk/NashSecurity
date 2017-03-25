@@ -1,14 +1,30 @@
-﻿using NashSecurity.AccountData;
+﻿using System;
+using NashSecurity.AccountData;
 using NashSecurity.Tests.ScenarioTests;
+using NashSecurity.Tests.State;
+using NashSecurity.Tests.StateAbstractions;
+using NashSecurity.Tests.StateBasedTestingTools;
 using NashSecurity.Tests.Support;
 using NUnit.Framework;
+using NashLink;
 
 namespace NashSecurity.Tests.SecuritySystemTests
 {
     public partial class SecuritySystemTests
     {
-        public class CreatedTests : CreatedScenarioTests
+        [TestFixture()]
+        public class CreatedTests : HasCreatedStateData
         {
+            [SetUp]
+            public void SetUp()
+            {
+                new NashLinker()
+                    .UseState(new CreatedState())
+                    .EnableFixtureInitializationCheck()
+                    .EnableStateTrace("PreviousState")
+                    .LinkStateToFixture(this);
+            }
+
             [Test]
             public void WhenSigningUpThenSessionTokenIsGot()
             {

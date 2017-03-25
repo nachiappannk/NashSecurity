@@ -1,7 +1,6 @@
 using NashSecurity.Tests.Support;
-using NUnit.Framework;
 
-namespace NashSecurity.Tests.Scenario
+namespace NashSecurity.Tests.StateAbstractions
 {
     public interface IHasExitedData
     {

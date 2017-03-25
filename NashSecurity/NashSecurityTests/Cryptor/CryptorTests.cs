@@ -1,36 +1,68 @@
 ﻿using System;
+using System.CodeDom;
+using NashLink;
 using NashSecurity.InternalCryptor;
-using NashSecurity.Tests.Scenario;
 using NashSecurity.Tests.ScenarioTests;
 using NashSecurity.Tests.SecuritySystemTests;
+using NashSecurity.Tests.State;
+using NashSecurity.Tests.StateAbstractions;
+using NashSecurity.Tests.Support;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.Cryptor
 {
-    public partial class CryptorTests : CryptorCreatedScenarioTests
+
+    public partial class CryptorTests
     {
-        public CryptorTests(Type enteredInSecurityContextType) : base(enteredInSecurityContextType)
+        [TestFixture(typeof(CryptorCreatedAfterSigningUpStateFactory))]
+        [TestFixture(typeof(CryptorCreatedAfterSigningInStateFactory))]
+        public class CryptorCreatedState : IHasCryptorCreatedData
         {
-        }
+            private readonly Type _createCreatedStateFactoryType;
+            public ISessionToken SessionToken { get; set; }
+            public ISecuritySystem SecuritySystem { get; set; }
+            public MockedAccountDataGateway MockedAccountDataGateway { get; set; }
+            public AccountInfo AccountInfo { get; set; }
+            public ICryptor Cryptor { get; set; }
 
-        [Test]
-        public void Encrypt()
-        {
-            byte[] inputBytes = new byte[] { 00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 1, 16, 17, 18, 19, 20 };
-            byte[] expectedEncryptedBytes = InternalContentCryptor.EncryptBytes(AccountInfo.MasterPassword, inputBytes);
-            var encryptedBytes = Cryptor.Encrypt(SessionToken, inputBytes);
-            CollectionAssert.AreEqual(expectedEncryptedBytes, encryptedBytes);
-        }
 
-        [Test]
-        public void Decrypt()
-        {
-            byte[] plainBytes = new byte[] { 00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 1, 16, 17, 18, 19, 20 };
-            byte[] encryptedBytes = InternalContentCryptor.EncryptBytes(AccountInfo.MasterPassword, plainBytes);
+            public CryptorCreatedState(Type createCreatedStateFactoryType)
+            {
+                _createCreatedStateFactoryType = createCreatedStateFactoryType;
+            }
 
-            byte[] expectedDecryptedBytes = InternalContentCryptor.DecryptBytes(AccountInfo.MasterPassword, encryptedBytes);
-            var decryptedBytes = Cryptor.Decrypt(SessionToken, encryptedBytes);
-            CollectionAssert.AreEqual(expectedDecryptedBytes, decryptedBytes);
+            [SetUp]
+            public void SetUp()
+            {
+                new NashLinker()
+                .CreateStateWithFactoryType(_createCreatedStateFactoryType,"CreateState")
+                .EnableFixtureInitializationCheck()
+                .EnableStateTrace()
+                .LinkStateToFixture(this);
+            }
+
+
+            [Test]
+            public void Encrypt()
+            {
+                byte[] inputBytes = new byte[] { 00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 1, 16, 17, 18, 19, 20 };
+                byte[] expectedEncryptedBytes = InternalContentCryptor.EncryptBytes(AccountInfo.MasterPassword, inputBytes);
+                var encryptedBytes = Cryptor.Encrypt(SessionToken, inputBytes);
+                CollectionAssert.AreEqual(expectedEncryptedBytes, encryptedBytes);
+            }
+
+            [Test]
+            public void Decrypt()
+            {
+                byte[] plainBytes = new byte[] { 00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 1, 16, 17, 18, 19, 20 };
+                byte[] encryptedBytes = InternalContentCryptor.EncryptBytes(AccountInfo.MasterPassword, plainBytes);
+
+                byte[] expectedDecryptedBytes = InternalContentCryptor.DecryptBytes(AccountInfo.MasterPassword, encryptedBytes);
+                var decryptedBytes = Cryptor.Decrypt(SessionToken, encryptedBytes);
+                CollectionAssert.AreEqual(expectedDecryptedBytes, decryptedBytes);
+            }
+
+
         }
     }
 }

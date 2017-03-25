@@ -2,7 +2,8 @@
 {
     public class InternalContentCryptor : InternalCryptor
     {
-        private InternalContentCryptor(string key) : base(key)
+        private InternalContentCryptor(string key)
+            : base(key)
         {
             RandomizingStringForSalt = "NashSecurity";
             RandomizingStringForMain = "JohnFNash";

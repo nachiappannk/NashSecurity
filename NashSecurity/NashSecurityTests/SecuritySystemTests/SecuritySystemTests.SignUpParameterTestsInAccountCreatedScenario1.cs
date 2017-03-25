@@ -1,6 +1,8 @@
 ﻿using System;
-using NashSecurity.Tests.ScenarioBasedTestingTools;
+using NashLink;
 using NashSecurity.Tests.ScenarioTests;
+using NashSecurity.Tests.State.Factories.ExitedStateFactory;
+using NashSecurity.Tests.StateBasedTestingTools;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.SecuritySystemTests
@@ -8,11 +10,25 @@ namespace NashSecurity.Tests.SecuritySystemTests
     public partial class SecuritySystemTests
     {
         [ToDo("This is duplicate code. The code is similar to ", typeof(SignUpParameterTestsInAccountCreatedScenario))]
-        public class SignUpParameterTestsInAccountCreatedScenario1 : ExitedScenarioTests
+        [TestFixture(typeof(LoggedOutAfterSignInStateFactory))]
+        [TestFixture(typeof(LoggedOutAfterSignUpStateFactory))]
+        public class SignUpParameterTestsInAccountCreatedScenario1 : HasExitedData
         {
-            public SignUpParameterTestsInAccountCreatedScenario1(Type enteredInContextType)
-                : base(enteredInContextType)
+            private readonly Type _exitedStateFactoryType;
+
+            public SignUpParameterTestsInAccountCreatedScenario1(Type exitedStateFactoryType)
             {
+                _exitedStateFactoryType = exitedStateFactoryType;
+            }
+
+            [SetUp]
+            public void SetUp()
+            {
+                new NashLinker()
+                .CreateStateWithFactoryType(_exitedStateFactoryType, "CreateState")
+                .EnableFixtureInitializationCheck()
+                .EnableStateTrace()
+                .LinkStateToFixture(this);
             }
 
             [Test]

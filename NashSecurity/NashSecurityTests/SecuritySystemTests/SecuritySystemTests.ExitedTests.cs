@@ -1,5 +1,9 @@
 ﻿using System;
+using NashLink;
 using NashSecurity.Tests.ScenarioTests;
+using NashSecurity.Tests.State.Factories.ExitedStateFactory;
+using NashSecurity.Tests.StateAbstractions;
+using NashSecurity.Tests.StateBasedTestingTools;
 using NashSecurity.Tests.Support;
 using NUnit.Framework;
 
@@ -7,11 +11,25 @@ namespace NashSecurity.Tests.SecuritySystemTests
 {
     public partial class SecuritySystemTests
     {
-        public class ExitedTests : ExitedScenarioTests
+        [TestFixture(typeof(LoggedOutAfterSignInStateFactory))]
+        [TestFixture(typeof(LoggedOutAfterSignUpStateFactory))]
+        public class ExitedTests : HasExitedData
         {
-            public ExitedTests(Type exitedContextType)
-                : base(exitedContextType)
+            private readonly Type _exitedStateFactoryType;
+
+            public ExitedTests(Type exitedStateFactoryType)
             {
+                _exitedStateFactoryType = exitedStateFactoryType;
+            }
+
+            [SetUp]
+            public void SetUp()
+            {
+                new NashLinker()
+                .CreateStateWithFactoryType(_exitedStateFactoryType, "CreateState")
+                .EnableFixtureInitializationCheck()
+                .EnableStateTrace()
+                .LinkStateToFixture(this);
             }
 
             [Test, ExpectedException(typeof(SecuritySystem.AccountNameAlreadyTakenException))]

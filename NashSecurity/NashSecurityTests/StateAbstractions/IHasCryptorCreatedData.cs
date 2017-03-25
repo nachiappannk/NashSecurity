@@ -1,4 +1,4 @@
-namespace NashSecurity.Tests.Scenario
+namespace NashSecurity.Tests.StateAbstractions
 {
     public interface IHasCryptorCreatedData : IHasEnteredData
     {

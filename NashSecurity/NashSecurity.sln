@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NashSecurityW7DesktopAppVie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NashSecurityW7DesktopAppViewModelTests", "NashSecurityW7DesktopAppViewModelTests\NashSecurityW7DesktopAppViewModelTests.csproj", "{ADE1F5DA-3A0F-4B06-9D12-CC9C5B2883A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NashLink", "NashLink\NashLink.csproj", "{4D02DCB6-F727-4B22-9394-B34F6FF92F1F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{ADE1F5DA-3A0F-4B06-9D12-CC9C5B2883A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADE1F5DA-3A0F-4B06-9D12-CC9C5B2883A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADE1F5DA-3A0F-4B06-9D12-CC9C5B2883A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D02DCB6-F727-4B22-9394-B34F6FF92F1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D02DCB6-F727-4B22-9394-B34F6FF92F1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D02DCB6-F727-4B22-9394-B34F6FF92F1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D02DCB6-F727-4B22-9394-B34F6FF92F1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

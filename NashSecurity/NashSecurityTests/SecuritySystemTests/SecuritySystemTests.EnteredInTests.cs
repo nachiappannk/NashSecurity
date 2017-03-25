@@ -1,14 +1,45 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
+using AutoMapper;
+using NashLink;
 using NashSecurity.Tests.ScenarioTests;
+using NashSecurity.Tests.State;
+using NashSecurity.Tests.StateAbstractions;
+using NashSecurity.Tests.StateBasedTestingTools;
 using NashSecurity.Tests.Support;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.SecuritySystemTests
 {
+    
+
+
     public partial class SecuritySystemTests
     {
-        public class EnteredTests : EnteredScenarioTests
+        [TestFixture(typeof(SignedInState))]
+        [TestFixture(typeof(SignedUpState))]
+        public class EnteredTests : HasEnteredStateData
         {
+            private readonly Type _stateType;
+
+            public EnteredTests(Type stateType)
+            {
+                _stateType = stateType;
+            }
+
+            [SetUp]
+            public void SetUp()
+            {
+                new NashLinker()
+                    .CreateStateFromType(_stateType)
+                    .EnableStateTrace("PreviousState")
+                    .EnableFixtureInitializationCheck()
+                    .LinkStateToFixture(this);
+            }
+
             [Test]
             public void LogoutThenNoException()
             {
@@ -45,11 +76,6 @@ namespace NashSecurity.Tests.SecuritySystemTests
             public void SignUp()
             {
                 SecuritySystem.SignUp(AccountInfo);
-            }
-
-            public EnteredTests(Type factoryType)
-                : base(factoryType)
-            {
             }
         }
     }

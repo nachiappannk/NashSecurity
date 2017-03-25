@@ -1,33 +1,46 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+using NashLink;
 using NashSecurity.InternalCryptor;
 using NashSecurity.Tests.SecuritySystemTests;
+using NashSecurity.Tests.State;
+using NashSecurity.Tests.StateAbstractions;
+using NashSecurity.Tests.Support;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.Cryptor
 {
     public partial class CryptorTests
     {
-        public class FileCryptingTests : CryptorTests
+        [TestFixture(typeof(CryptorCreatedAfterSigningUpStateFactory))]
+        [TestFixture(typeof(CryptorCreatedAfterSigningInStateFactory))]
+        public class FileCryptingTests : IHasCryptorCreatedData
         {
             private static readonly object GuardObject = new object();
             private static string _plainFile;
             private static string _encryptedFile;
             private static byte[] _plainBytes;
             private static byte[] _encryptedBytes;
+            private Type _createCreatedStateFactoryType;
 
-            public FileCryptingTests(Type enteredInContextType) : base(enteredInContextType)
+            public FileCryptingTests(Type createCreatedStateFactoryType)
             {
+                _createCreatedStateFactoryType = createCreatedStateFactoryType;
                 _plainFile = "file.txt";
                 _encryptedFile = "file.txt.nsec";
-                _plainBytes = new byte[]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 };
-                
+                _plainBytes = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 };
             }
 
             [SetUp]
-            public void SetUUUP()
+            public void SetUp()
             {
+                new NashLinker()
+                .CreateStateWithFactoryType(_createCreatedStateFactoryType,"CreateState")
+                .EnableFixtureInitializationCheck()
+                .EnableStateTrace()
+                .LinkStateToFixture(this);
+
                 _encryptedBytes = InternalContentCryptor.EncryptBytes(AccountInfo.MasterPassword,
                         _plainBytes);
             }
@@ -47,7 +60,7 @@ namespace NashSecurity.Tests.Cryptor
             public void EncryptFileNonExisting()
             {
                 using (new TestScopeProvider())
-                {                    
+                {
                     EncryptFile();
                 }
             }
@@ -129,7 +142,7 @@ namespace NashSecurity.Tests.Cryptor
                 public TestScopeProvider()
                 {
 
-                    Monitor.Enter(GuardObject); 
+                    Monitor.Enter(GuardObject);
                 }
 
                 public void Dispose()
@@ -163,10 +176,10 @@ namespace NashSecurity.Tests.Cryptor
                 public FileHider(string fileName)
                 {
                     _fileName = fileName;
-                    File.WriteAllBytes(_fileName, new byte[]{0});
+                    File.WriteAllBytes(_fileName, new byte[] { 0 });
                     _fileInfo = new FileInfo(Environment.CurrentDirectory + @"\" + _fileName);
                     _fileInfo.Attributes |= FileAttributes.Hidden;
-                    
+
                 }
 
                 public void Dispose()
@@ -224,6 +237,12 @@ namespace NashSecurity.Tests.Cryptor
             {
                 if (File.Exists(inputFile)) File.Delete(inputFile);
             }
+
+            public ISessionToken SessionToken { get; set; }
+            public ISecuritySystem SecuritySystem { get; set; }
+            public MockedAccountDataGateway MockedAccountDataGateway { get; set; }
+            public AccountInfo AccountInfo { get; set; }
+            public ICryptor Cryptor { get; set; }
         }
     }
 }

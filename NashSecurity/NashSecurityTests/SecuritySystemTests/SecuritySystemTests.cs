@@ -2,7 +2,7 @@
 
 namespace NashSecurity.Tests.SecuritySystemTests
 {
-    [TestFixture()]
+    [TestFixture]
     public partial class SecuritySystemTests
     {
     }

@@ -1,19 +1,21 @@
-using NashSecurity.Tests.ScenarioBasedTestingTools;
+using NashLink;
+using NashSecurity.Tests.StateAbstractions;
+using NashSecurity.Tests.StateBasedTestingTools;
 using NashSecurity.Tests.Support;
 
-namespace NashSecurity.Tests.Scenario.Implementation
+namespace NashSecurity.Tests.State
 {
-    public class SignedUpScenario : IHasEnteredData
+    public class SignedUpState : IHasEnteredData
     {
         public ISessionToken SessionToken { get; set; }
         public ISecuritySystem SecuritySystem { get; set; }
         public MockedAccountDataGateway MockedAccountDataGateway { get; set; }
         public AccountInfo AccountInfo { get; set; }
 
-        public SignedUpScenario()
+        public SignedUpState()
         {
-            var previousScenario = new CreatedScenario();
-            previousScenario.MoveToScenario<IHasCreatedData, IHasEnteredData>(this);
+            var createdState = new CreatedState();
+            createdState.CopyPossibleProperties(this);
             SessionToken = SecuritySystem.SignUp(AccountInfo);
         }
     }

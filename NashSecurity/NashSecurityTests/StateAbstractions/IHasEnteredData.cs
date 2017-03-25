@@ -1,6 +1,6 @@
 using NashSecurity.Tests.Support;
 
-namespace NashSecurity.Tests.Scenario
+namespace NashSecurity.Tests.StateAbstractions
 {
     public interface IHasEnteredData
     {

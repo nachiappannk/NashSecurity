@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NashSecurity.Tests.ScenarioBasedTestingTools
+namespace NashSecurity.Tests.StateBasedTestingTools
 {
     [AttributeUsage(AttributeTargets.All,  AllowMultiple = true)]
     public class ToDoAttribute : Attribute

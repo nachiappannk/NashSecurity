@@ -54,33 +54,29 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AesCryptorTests.cs" />
-    <Compile Include="ScenarioBasedTestingTools\IScenarioDataFactory.cs" />
-    <Compile Include="ScenarioBasedTestingTools\ScenarioBasedTestingExtentions.cs" />
-    <Compile Include="ScenarioBasedTestingTools\ToDoAttribute.cs" />
-    <Compile Include="ScenarioTests\CryptorCreatedScenarioTests.cs" />
-    <Compile Include="ScenarioTests\EnteredScenarioTests.cs" />
-    <Compile Include="ScenarioTests\ExitedScenarioTests.cs" />
-    <Compile Include="ScenarioBasedTestingTools\FixtureHelper.cs" />
-    <Compile Include="ScenarioTests\Factories\HasEnteredData\SignedUpScenarioDataFactory.cs" />
-    <Compile Include="ScenarioTests\Factories\HasEnteredData\SignedInScenarioDataFactory.cs" />
-    <Compile Include="ScenarioTests\Factories\HasExitedData\LoggedOutAfterSignInScenarioDataFactory.cs" />
-    <Compile Include="ScenarioTests\Factories\HasExitedData\LoggedOutAfterSignUpScenarioDataFactory.cs" />
-    <Compile Include="Scenario\Implementation\CryptorCreatedScenario.cs" />
-    <Compile Include="Scenario\IHasCryptorCreatedData.cs" />
-    <Compile Include="Scenario\IHasEnteredData.cs" />
-    <Compile Include="Scenario\IHasExitedData.cs" />
-    <Compile Include="Scenario\IHasCreatedData.cs" />
-    <Compile Include="Scenario\Implementation\ExitedScenario.cs" />
-    <Compile Include="ScenarioTests\CreatedScenarioTests.cs" />
-    <Compile Include="Scenario\Implementation\SignedInScenario.cs" />
-    <Compile Include="Scenario\Implementation\SignedUpScenario.cs" />
+    <Compile Include="StateBasedTestingTools\ToDoAttribute.cs" />
+    <Compile Include="ScenarioTests\HasEnteredStateData.cs" />
+    <Compile Include="ScenarioTests\HasExitedData.cs" />
+    <Compile Include="State\Factories\EnteredStateFactory\SignedUpStateFactory.cs" />
+    <Compile Include="State\Factories\EnteredStateFactory\SignedInStateFactory.cs" />
+    <Compile Include="State\Factories\ExitedStateFactory\LoggedOutAfterSignInStateFactory.cs" />
+    <Compile Include="State\Factories\ExitedStateFactory\LoggedOutAfterSignUpStateFactory.cs" />
+    <Compile Include="State\CryptorCreatedState.cs" />
+    <Compile Include="StateAbstractions\IHasCryptorCreatedData.cs" />
+    <Compile Include="StateAbstractions\IHasEnteredData.cs" />
+    <Compile Include="StateAbstractions\IHasExitedData.cs" />
+    <Compile Include="StateAbstractions\IHasCreatedData.cs" />
+    <Compile Include="State\ExitedState.cs" />
+    <Compile Include="ScenarioTests\HasCreatedStateData.cs" />
+    <Compile Include="State\SignedInState.cs" />
+    <Compile Include="State\SignedUpState.cs" />
     <Compile Include="Cryptor\CryptorTests.cs" />
     <Compile Include="Cryptor\CryptorTests.FileCryptingTests.cs" />
     <Compile Include="InternalCryptorTests\InternalContentCryptorTests\InternalContentCryptorTests.cs" />
     <Compile Include="InternalCryptorTests\InternalContentCryptorTests\InternalContentCryptorTests.LargeDataTests.cs" />
     <Compile Include="InternalCryptorTests\InternalContentCryptorTests\InternalContentCryptorTests.SimpleTests.cs" />
     <Compile Include="InternalCryptorTests\InternalPasswordCryptorTests.cs" />
-    <Compile Include="Scenario\Implementation\CreatedScenario.cs" />
+    <Compile Include="State\CreatedState.cs" />
     <Compile Include="SecuritySystemTests\SecuritySystemTests.BadAccountDataGatewayTests.cs" />
     <Compile Include="SecuritySystemTests\SecuritySystemTests.EnteredInTests.cs" />
     <Compile Include="SecuritySystemTests\SecuritySystemTests.CreatedTests.cs" />
@@ -104,12 +100,18 @@
     <EmbeddedResource Include="InternalCryptorTests\InternalContentCryptorTests\TestFile.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NashLink\NashLink.csproj">
+      <Project>{4d02dcb6-f727-4b22-9394-b34f6ff92f1f}</Project>
+      <Name>NashLink</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NashSecurity\NashSecurity.csproj">
       <Project>{66a58155-9458-420d-af2a-6ecbb7d992b3}</Project>
       <Name>NashSecurity</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="State\Factories\CryptorCreatedStateFactory\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

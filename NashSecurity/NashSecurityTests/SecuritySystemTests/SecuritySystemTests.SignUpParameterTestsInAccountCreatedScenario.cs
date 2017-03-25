@@ -1,16 +1,32 @@
 ﻿using System;
+using NashLink;
 using NashSecurity.Tests.ScenarioTests;
+using NashSecurity.Tests.State.Factories.EnteredStateFactory;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.SecuritySystemTests
 {
     public partial class SecuritySystemTests
     {
-        public class SignUpParameterTestsInAccountCreatedScenario : EnteredScenarioTests
+        [TestFixture(typeof(SignedInStateFactory))]
+        [TestFixture(typeof(SignedUpStateFactory))]
+        public class SignUpParameterTestsInAccountCreatedScenario : HasEnteredStateData
         {
-            public SignUpParameterTestsInAccountCreatedScenario(Type enteredInContextType)
-                : base(enteredInContextType)
+            private readonly Type _enteredInStateFactoryType;
+
+            public SignUpParameterTestsInAccountCreatedScenario(Type enteredInStateFactoryType)
             {
+                _enteredInStateFactoryType = enteredInStateFactoryType;
+            }
+
+            [SetUp]
+            public void SetUp()
+            {
+                new NashLinker()
+                    .CreateStateWithFactoryType(_enteredInStateFactoryType, "CreateState")
+                    .EnableStateTrace()
+                    .EnableFixtureInitializationCheck()
+                    .LinkStateToFixture(this);
             }
 
             [Test]

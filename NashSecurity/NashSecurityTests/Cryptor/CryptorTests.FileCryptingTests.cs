@@ -13,8 +13,8 @@ namespace NashSecurity.Tests.Cryptor
 {
     public partial class CryptorTests
     {
-        [TestFixture(typeof(CryptorCreatedAfterSigningUpStateFactory))]
-        [TestFixture(typeof(CryptorCreatedAfterSigningInStateFactory))]
+        [TestFixture(StateFactory.AfterSigningInCryptorCreatedState)]
+        [TestFixture(StateFactory.AfterSigningUpCryptorCreatedState)]
         public class FileCryptingTests : IHasCryptorCreatedData
         {
             private static readonly object GuardObject = new object();
@@ -22,11 +22,11 @@ namespace NashSecurity.Tests.Cryptor
             private static string _encryptedFile;
             private static byte[] _plainBytes;
             private static byte[] _encryptedBytes;
-            private Type _createCreatedStateFactoryType;
+            private string _stateParam;
 
-            public FileCryptingTests(Type createCreatedStateFactoryType)
+            public FileCryptingTests(string stateParam)
             {
-                _createCreatedStateFactoryType = createCreatedStateFactoryType;
+                _stateParam = stateParam;
                 _plainFile = "file.txt";
                 _encryptedFile = "file.txt.nsec";
                 _plainBytes = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 };
@@ -36,7 +36,7 @@ namespace NashSecurity.Tests.Cryptor
             public void SetUp()
             {
                 new NashLinker()
-                .CreateStateWithFactoryType(_createCreatedStateFactoryType,"CreateState")
+                .UseState(StateFactory.CreateState(_stateParam))
                 .EnableFixtureInitializationCheck()
                 .EnableStateTrace()
                 .LinkStateToFixture(this);

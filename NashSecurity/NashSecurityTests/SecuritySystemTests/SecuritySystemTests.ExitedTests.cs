@@ -1,9 +1,8 @@
 ﻿using System;
 using NashLink;
 using NashSecurity.Tests.ScenarioTests;
-using NashSecurity.Tests.State.Factories.ExitedStateFactory;
+using NashSecurity.Tests.State;
 using NashSecurity.Tests.StateAbstractions;
-using NashSecurity.Tests.StateBasedTestingTools;
 using NashSecurity.Tests.Support;
 using NUnit.Framework;
 
@@ -11,22 +10,22 @@ namespace NashSecurity.Tests.SecuritySystemTests
 {
     public partial class SecuritySystemTests
     {
-        [TestFixture(typeof(LoggedOutAfterSignInStateFactory))]
-        [TestFixture(typeof(LoggedOutAfterSignUpStateFactory))]
+        [TestFixture(StateFactory.ExitedAfterSigningInState)]
+        [TestFixture(StateFactory.ExitedAfterSigningUpState)]
         public class ExitedTests : HasExitedData
         {
-            private readonly Type _exitedStateFactoryType;
+            private readonly string _stateParams;
 
-            public ExitedTests(Type exitedStateFactoryType)
+            public ExitedTests(string stateParams)
             {
-                _exitedStateFactoryType = exitedStateFactoryType;
+                _stateParams = stateParams;
             }
 
             [SetUp]
             public void SetUp()
             {
                 new NashLinker()
-                .CreateStateWithFactoryType(_exitedStateFactoryType, "CreateState")
+                .UseState(StateFactory.CreateState(_stateParams))
                 .EnableFixtureInitializationCheck()
                 .EnableStateTrace()
                 .LinkStateToFixture(this);

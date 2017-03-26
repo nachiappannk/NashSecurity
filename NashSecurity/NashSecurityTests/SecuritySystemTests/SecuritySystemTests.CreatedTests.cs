@@ -3,7 +3,6 @@ using NashSecurity.AccountData;
 using NashSecurity.Tests.ScenarioTests;
 using NashSecurity.Tests.State;
 using NashSecurity.Tests.StateAbstractions;
-using NashSecurity.Tests.StateBasedTestingTools;
 using NashSecurity.Tests.Support;
 using NUnit.Framework;
 using NashLink;
@@ -19,7 +18,7 @@ namespace NashSecurity.Tests.SecuritySystemTests
             public void SetUp()
             {
                 new NashLinker()
-                    .UseState(new CreatedState())
+                    .UseState(StateFactory.CreateState(StateFactory.CreatedState))
                     .EnableFixtureInitializationCheck()
                     .EnableStateTrace("PreviousState")
                     .LinkStateToFixture(this);

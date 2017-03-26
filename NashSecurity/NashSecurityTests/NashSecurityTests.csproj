@@ -54,13 +54,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AesCryptorTests.cs" />
-    <Compile Include="StateBasedTestingTools\ToDoAttribute.cs" />
     <Compile Include="ScenarioTests\HasEnteredStateData.cs" />
     <Compile Include="ScenarioTests\HasExitedData.cs" />
-    <Compile Include="State\Factories\EnteredStateFactory\SignedUpStateFactory.cs" />
-    <Compile Include="State\Factories\EnteredStateFactory\SignedInStateFactory.cs" />
-    <Compile Include="State\Factories\ExitedStateFactory\LoggedOutAfterSignInStateFactory.cs" />
-    <Compile Include="State\Factories\ExitedStateFactory\LoggedOutAfterSignUpStateFactory.cs" />
     <Compile Include="State\CryptorCreatedState.cs" />
     <Compile Include="StateAbstractions\IHasCryptorCreatedData.cs" />
     <Compile Include="StateAbstractions\IHasEnteredData.cs" />
@@ -81,10 +76,9 @@
     <Compile Include="SecuritySystemTests\SecuritySystemTests.EnteredInTests.cs" />
     <Compile Include="SecuritySystemTests\SecuritySystemTests.CreatedTests.cs" />
     <Compile Include="SecuritySystemTests\SecuritySystemTests.ExitedTests.cs" />
-    <Compile Include="SecuritySystemTests\SecuritySystemTests.SignUpParametersTestsInExitedScenario.cs" />
+    <Compile Include="SecuritySystemTests\SecuritySystemTests.SignUpParameterTests.cs" />
     <Compile Include="SecuritySystemTests\SecuritySystemTests.SignUpParameterTestsInAccountCreatedScenario.cs" />
-    <Compile Include="SecuritySystemTests\SecuritySystemTests.SignUpParameterTestsInAccountCreatedScenario1.cs" />
-    <Compile Include="SecuritySystemTests\SecuritySystemTests.SignUpParameterTestsInEnteredScenario.cs" />
+    <Compile Include="State\StateFactory.cs" />
     <Compile Include="Support\SecuritySystemTextExtentions.cs" />
     <Compile Include="Support\MockedSessionToken.cs" />
     <Compile Include="Support\MockedAccountDataGateway.cs" />
@@ -109,9 +103,7 @@
       <Name>NashSecurity</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="State\Factories\CryptorCreatedStateFactory\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

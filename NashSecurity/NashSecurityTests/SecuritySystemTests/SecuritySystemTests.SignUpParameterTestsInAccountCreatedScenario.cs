@@ -1,29 +1,36 @@
 ﻿using System;
 using NashLink;
 using NashSecurity.Tests.ScenarioTests;
-using NashSecurity.Tests.State.Factories.EnteredStateFactory;
+using NashSecurity.Tests.State;
+using NashSecurity.Tests.Support;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.SecuritySystemTests
 {
     public partial class SecuritySystemTests
     {
-        [TestFixture(typeof(SignedInStateFactory))]
-        [TestFixture(typeof(SignedUpStateFactory))]
-        public class SignUpParameterTestsInAccountCreatedScenario : HasEnteredStateData
+        [TestFixture(StateFactory.SignedInState)]
+        [TestFixture(StateFactory.SignedUpState)]
+        [TestFixture(StateFactory.ExitedAfterSigningInState)]
+        [TestFixture(StateFactory.ExitedAfterSigningUpState)]
+        public class SignUpParameterTestsInAccountCreatedScenario
         {
-            private readonly Type _enteredInStateFactoryType;
+            public ISecuritySystem SecuritySystem { get; set; }
+            public MockedAccountDataGateway MockedAccountDataGateway { get; set; }
+            public AccountInfo AccountInfo { get; set; }
 
-            public SignUpParameterTestsInAccountCreatedScenario(Type enteredInStateFactoryType)
+            private readonly string _stateParams;
+
+            public SignUpParameterTestsInAccountCreatedScenario(string stateParams)
             {
-                _enteredInStateFactoryType = enteredInStateFactoryType;
+                _stateParams = stateParams;
             }
 
             [SetUp]
             public void SetUp()
             {
                 new NashLinker()
-                    .CreateStateWithFactoryType(_enteredInStateFactoryType, "CreateState")
+                    .UseState(StateFactory.CreateState(_stateParams))
                     .EnableStateTrace()
                     .EnableFixtureInitializationCheck()
                     .LinkStateToFixture(this);

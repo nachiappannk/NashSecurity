@@ -14,11 +14,11 @@ namespace NashSecurity.Tests.Cryptor
 
     public partial class CryptorTests
     {
-        [TestFixture(typeof(CryptorCreatedAfterSigningUpStateFactory))]
-        [TestFixture(typeof(CryptorCreatedAfterSigningInStateFactory))]
+        [TestFixture(StateFactory.AfterSigningInCryptorCreatedState)]
+        [TestFixture(StateFactory.AfterSigningUpCryptorCreatedState)]
         public class CryptorCreatedState : IHasCryptorCreatedData
         {
-            private readonly Type _createCreatedStateFactoryType;
+            private readonly string _stateParam;
             public ISessionToken SessionToken { get; set; }
             public ISecuritySystem SecuritySystem { get; set; }
             public MockedAccountDataGateway MockedAccountDataGateway { get; set; }
@@ -26,16 +26,16 @@ namespace NashSecurity.Tests.Cryptor
             public ICryptor Cryptor { get; set; }
 
 
-            public CryptorCreatedState(Type createCreatedStateFactoryType)
+            public CryptorCreatedState(string stateParam)
             {
-                _createCreatedStateFactoryType = createCreatedStateFactoryType;
+                _stateParam = stateParam;
             }
 
             [SetUp]
             public void SetUp()
             {
                 new NashLinker()
-                .CreateStateWithFactoryType(_createCreatedStateFactoryType,"CreateState")
+                .UseState(StateFactory.CreateState(_stateParam))
                 .EnableFixtureInitializationCheck()
                 .EnableStateTrace()
                 .LinkStateToFixture(this);

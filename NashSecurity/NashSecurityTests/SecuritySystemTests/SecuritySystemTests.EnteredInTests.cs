@@ -8,33 +8,29 @@ using NashLink;
 using NashSecurity.Tests.ScenarioTests;
 using NashSecurity.Tests.State;
 using NashSecurity.Tests.StateAbstractions;
-using NashSecurity.Tests.StateBasedTestingTools;
 using NashSecurity.Tests.Support;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.SecuritySystemTests
 {
-    
-
-
     public partial class SecuritySystemTests
     {
-        [TestFixture(typeof(SignedInState))]
-        [TestFixture(typeof(SignedUpState))]
+        [TestFixture(StateFactory.SignedInState)]
+        [TestFixture(StateFactory.SignedUpState)]
         public class EnteredTests : HasEnteredStateData
         {
-            private readonly Type _stateType;
+            private readonly string _stateCreationParam;
 
-            public EnteredTests(Type stateType)
+            public EnteredTests(string stateCreationParam)
             {
-                _stateType = stateType;
+                _stateCreationParam = stateCreationParam;
             }
 
             [SetUp]
             public void SetUp()
             {
                 new NashLinker()
-                    .CreateStateFromType(_stateType)
+                    .UseState(StateFactory.CreateState(_stateCreationParam))
                     .EnableStateTrace("PreviousState")
                     .EnableFixtureInitializationCheck()
                     .LinkStateToFixture(this);

@@ -1,6 +1,5 @@
 using NashLink;
 using NashSecurity.Tests.StateAbstractions;
-using NashSecurity.Tests.StateBasedTestingTools;
 using NashSecurity.Tests.Support;
 
 namespace NashSecurity.Tests.State
@@ -18,21 +17,5 @@ namespace NashSecurity.Tests.State
         public ISecuritySystem SecuritySystem { get; set; }
         public MockedAccountDataGateway MockedAccountDataGateway { get; set; }
         public AccountInfo AccountInfo { get; set; }
-    }
-
-    public class CryptorCreatedAfterSigningInStateFactory
-    {
-        public CryptorCreatedState CreateState()
-        {
-            return new CryptorCreatedState(new SignedInState());
-        }
-    }
-
-    public class CryptorCreatedAfterSigningUpStateFactory
-    {
-        public CryptorCreatedState CreateState()
-        {
-            return new CryptorCreatedState(new SignedUpState());
-        }
     }
 }

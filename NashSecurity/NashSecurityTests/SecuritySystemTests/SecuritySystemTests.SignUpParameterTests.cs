@@ -1,29 +1,35 @@
 ﻿using System;
 using NashLink;
 using NashSecurity.Tests.ScenarioTests;
-using NashSecurity.Tests.State.Factories.ExitedStateFactory;
+using NashSecurity.Tests.State;
+using NashSecurity.Tests.Support;
 using NUnit.Framework;
 
 namespace NashSecurity.Tests.SecuritySystemTests
 {
     public partial class SecuritySystemTests
     {
-        [TestFixture(typeof(LoggedOutAfterSignInStateFactory))]
-        [TestFixture(typeof(LoggedOutAfterSignUpStateFactory))]
-        public class SignUpParametersTestsInExitedScenario : HasExitedData
+        [TestFixture(StateFactory.SignedInState)]
+        [TestFixture(StateFactory.SignedUpState)]
+        [TestFixture(StateFactory.ExitedAfterSigningInState)]
+        [TestFixture(StateFactory.ExitedAfterSigningUpState)]
+        [TestFixture(StateFactory.CreatedState)]
+        public class SignUpParameterTests
         {
-            private readonly Type _exitedStateFactoryType;
+            private readonly string _stateParam;
+            public ISecuritySystem SecuritySystem { get; set; }
+            public AccountInfo AccountInfo { get; set; }
 
-            public SignUpParametersTestsInExitedScenario(Type exitedStateFactoryType)
+            public SignUpParameterTests(string stateParam)
             {
-                _exitedStateFactoryType = exitedStateFactoryType;
+                _stateParam = stateParam;
             }
 
             [SetUp]
             public void SetUp()
             {
                 new NashLinker()
-                .CreateStateWithFactoryType(_exitedStateFactoryType, "CreateState")
+                .UseState(StateFactory.CreateState(_stateParam))
                 .EnableFixtureInitializationCheck()
                 .EnableStateTrace()
                 .LinkStateToFixture(this);

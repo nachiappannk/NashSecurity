@@ -63,6 +63,8 @@
     <Compile Include="StateAbstractions\IHasCreatedData.cs" />
     <Compile Include="State\ExitedState.cs" />
     <Compile Include="ScenarioTests\HasCreatedStateData.cs" />
+    <Compile Include="State\IHasPreviousState.cs" />
+    <Compile Include="State\IState.cs" />
     <Compile Include="State\SignedInState.cs" />
     <Compile Include="State\SignedUpState.cs" />
     <Compile Include="Cryptor\CryptorTests.cs" />

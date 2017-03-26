@@ -3,7 +3,7 @@ using NashSecurity.Tests.Support;
 
 namespace NashSecurity.Tests.State
 {
-    public class CreatedState : IHasCreatedData
+    public class CreatedState : IHasCreatedData, IState
     {
         public MockedAccountDataGateway MockedAccountDataGateway { get; set; }
         public ISecuritySystem SecuritySystem { get; set; }

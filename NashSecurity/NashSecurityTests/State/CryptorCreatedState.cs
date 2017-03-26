@@ -4,11 +4,12 @@ using NashSecurity.Tests.Support;
 
 namespace NashSecurity.Tests.State
 {
-    public class CryptorCreatedState : IHasCryptorCreatedData
+    public class CryptorCreatedState : IHasCryptorCreatedData, IState, IHasPreviousState
     {
-        public CryptorCreatedState(IHasEnteredData enteredData)
+        public CryptorCreatedState(IState previousState)
         {
-            enteredData.CopyPossibleProperties(this);
+            PreviousState = previousState;
+            PreviousState.CopyPossibleProperties(this);
             Cryptor = SecuritySystem.GetCryptor(SessionToken);
         }
 
@@ -17,5 +18,6 @@ namespace NashSecurity.Tests.State
         public ISecuritySystem SecuritySystem { get; set; }
         public MockedAccountDataGateway MockedAccountDataGateway { get; set; }
         public AccountInfo AccountInfo { get; set; }
+        public IState PreviousState { get; set; }
     }
 }

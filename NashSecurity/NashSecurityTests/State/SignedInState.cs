@@ -4,7 +4,7 @@ using NashSecurity.Tests.Support;
 
 namespace NashSecurity.Tests.State
 {
-    public class SignedInState : IHasEnteredData
+    public class SignedInState : IHasEnteredData, IState
     {
         public ISessionToken SessionToken { get; set; }
         public ISecuritySystem SecuritySystem { get; set; }

@@ -17,9 +17,15 @@ namespace NashSecurity.Tests.SecuritySystemTests
     {
         [TestFixture(StateFactory.SignedInState)]
         [TestFixture(StateFactory.SignedUpState)]
-        public class EnteredTests : HasEnteredStateData
+        public class EnteredTests 
+            : IHasSessionToken, IHasSecuritySystem, IHasMockedAccountDataGateway, IHasAccountInfo
         {
             private readonly string _stateCreationParam;
+
+            public ISessionToken SessionToken { get; set; }
+            public ISecuritySystem SecuritySystem { get; set; }
+            public MockedAccountDataGateway MockedAccountDataGateway { get; set; }
+            public AccountInfo AccountInfo { get; set; }
 
             public EnteredTests(string stateCreationParam)
             {

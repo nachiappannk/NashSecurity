@@ -4,7 +4,8 @@ using NashSecurity.Tests.Support;
 
 namespace NashSecurity.Tests.State
 {
-    public class SignedInState : IHasEnteredData, IState
+    public class SignedInState : IState,
+        IHasSecuritySystem, IHasSessionToken, IHasMockedAccountDataGateway, IHasAccountInfo
     {
         public ISessionToken SessionToken { get; set; }
         public ISecuritySystem SecuritySystem { get; set; }
@@ -13,7 +14,7 @@ namespace NashSecurity.Tests.State
 
         public SignedInState()
         {
-            var exitedState = new ExitedState(new SignedUpState());
+            var exitedState = ExitedState.Create(new SignedUpState());
             exitedState.CopyPossibleProperties(this);
             SessionToken = SecuritySystem.SignIn(AccountInfo);
         }

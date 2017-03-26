@@ -29,8 +29,8 @@ namespace NashSecurity.Tests.State
             s.Add(SignedUpState, () => new SignedUpState());
             s.Add(AfterSigningInCryptorCreatedState, () => new CryptorCreatedState(new SignedInState()));
             s.Add(AfterSigningUpCryptorCreatedState, () => new CryptorCreatedState(new SignedUpState()));
-            s.Add(ExitedAfterSigningInState,  () => new ExitedState(new SignedInState()));
-            s.Add(ExitedAfterSigningUpState, () => new ExitedState(new SignedUpState()));
+            s.Add(ExitedAfterSigningInState,  () => ExitedState.Create(new SignedInState()));
+            s.Add(ExitedAfterSigningUpState, () => ExitedState.Create(new SignedUpState()));
         }
 
 

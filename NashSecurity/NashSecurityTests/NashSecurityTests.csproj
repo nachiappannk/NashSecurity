@@ -54,12 +54,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AesCryptorTests.cs" />
-    <Compile Include="ScenarioTests\HasEnteredStateData.cs" />
-    <Compile Include="ScenarioTests\HasExitedData.cs" />
     <Compile Include="State\CryptorCreatedState.cs" />
     <Compile Include="StateAbstractions\IHasCryptorCreatedData.cs" />
     <Compile Include="StateAbstractions\IHasEnteredData.cs" />
-    <Compile Include="StateAbstractions\IHasExitedData.cs" />
     <Compile Include="StateAbstractions\IHasCreatedData.cs" />
     <Compile Include="State\ExitedState.cs" />
     <Compile Include="ScenarioTests\HasCreatedStateData.cs" />

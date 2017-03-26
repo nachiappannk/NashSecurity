@@ -12,8 +12,14 @@ namespace NashSecurity.Tests.SecuritySystemTests
     {
         [TestFixture(StateFactory.ExitedAfterSigningInState)]
         [TestFixture(StateFactory.ExitedAfterSigningUpState)]
-        public class ExitedTests : HasExitedData
+        public class ExitedTests 
+            : IHasMockedAccountDataGateway, IHasSecuritySystem, IHasAccountInfo, IHasInvalidSessionToken
         {
+            public MockedAccountDataGateway MockedAccountDataGateway { get; set; }
+            public ISecuritySystem SecuritySystem { get; set; }
+            public AccountInfo AccountInfo { get; set; }
+            public ISessionToken InvalidSessionToken { get; set; }
+
             private readonly string _stateParams;
 
             public ExitedTests(string stateParams)

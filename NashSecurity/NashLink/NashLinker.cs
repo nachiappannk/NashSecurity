@@ -74,7 +74,8 @@ namespace NashLink
             object state = _stateCreator.Invoke();
             CopyPossibleProperties(state, fixture);
             if (_shouldStateTraceBePrinted)
-                state.PrintStateHistory(_stateNamePrinter, _previousStatePropertyNames);
+                //state.PrintStateHistory(_stateNamePrinter, _previousStatePropertyNames);
+                Console.Write("s");
             if (_isFixtureInitializationCheckNeeded)
                 AssetFixtureIsFullyInitialized(fixture, _ignoredPropertyNamesForInitializationCheck);            
         }
